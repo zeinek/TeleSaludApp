@@ -1,0 +1,7 @@
+{
+  "name": "TeleSaludApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
