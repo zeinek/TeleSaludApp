@@ -1,0 +1,16 @@
+<ion-content [fullscreen]="true">
+  <div class="banner-container">
+    <!-- Imagen grande en el centro -->
+    <img class="banner-image" src="assets/imagen6.jpg" alt="Banner Image">
+
+    <!-- 5 botones -->
+    <ion-button expand="full" color="primary" (click)="navigateTo('/product-add')"> ADD product</ion-button>
+    <ion-button expand="full" color="primary" (click)="navigateTo('/product-all')"> ALL product</ion-button>
+    <ion-button expand="full" color="primary" (click)="navigateTo('/product-detail')"> DETAIL product</ion-button>
+    <ion-button expand="full" color="primary" (click)="navigateTo('/product-edit')"> EDIT product</ion-button>
+    <ion-button expand="full" color="primary" (click)="navigateTo('/product-list')"> LIST product</ion-button>
+
+    <!-- Botón para volver al login -->
+    <ion-button expand="full" color="danger" (click)="volverAlLogin()"> Volver al Login</ion-button>
+  </div>
+</ion-content>

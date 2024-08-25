@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>perfil-edit</ion-title>
+    <ion-buttons slot="end">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="perfilForm" (ngSubmit)="onFormSubmit()">
+    <ion-item>
+      <ion-label position="floating">Nombre de Usuario</ion-label>
+      <ion-input type="text" formControlName="perfil_username"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Correo</ion-label>
+      <ion-input type="email" formControlName="perfil_mail"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Clave</ion-label>
+      <ion-input type="password" formControlName="perfil_password"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Fecha de Nacimiento</ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" formControlName="perfil_fechanacimiento"></ion-datetime>
+    </ion-item>
+   
+    <ion-button type="submit" shape="round" color="primary" expand="block" [disabled]="!perfilForm.valid">Guardar</ion-button>
+  </form>
+</ion-content>
+
+
+
+
+
+
+

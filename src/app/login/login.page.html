@@ -1,0 +1,48 @@
+<ion-card>
+  <p></p>
+  <p></p>
+  <p></p>
+</ion-card>
+
+
+  <ion-content  class="ion-padding fade-in login-page">
+    <div class="header-title">
+      Iniciar Sesion
+      <div class="subtitle">TeleSalud</div>
+      <div class="welcome">Bienvenidos</div>
+    </div>
+
+
+    <ion-item>
+      <ion-label position="stacked">Usuario</ion-label>
+      <ion-input type="text" [(ngModel)]="username"></ion-input>
+    </ion-item>
+    <div *ngIf="usernameErrorL" class="error-message">
+      {{ usernameErrorL }}
+    </div>
+    <ion-item>
+      <ion-label position="stacked">Contraseña</ion-label>
+      <ion-input type="password" [(ngModel)]="password"></ion-input>
+    </ion-item>
+    <div *ngIf="passwordErrorL" class="error-message">
+      {{ passwordErrorL }}
+    </div>
+   
+
+
+    <ion-button expand="full" (click)="login()">Ingresar</ion-button>
+
+
+    <ion-button expand="full" color="secondary" (click)="crearCuenta()">Crear cuenta</ion-button>
+
+
+    <ion-button expand="full" fill="clear" color="medium" (click)="olvidasteContrasena()">¿Olvidaste tu contraseña?</ion-button>
+
+
+    <div class="error-message" style="color: red;"></div>
+  </ion-content>
+
+
+
+
+
