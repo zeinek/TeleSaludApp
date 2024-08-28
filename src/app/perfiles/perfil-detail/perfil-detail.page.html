@@ -1,0 +1,52 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>perfil-detail</ion-title>
+    <ion-buttons slot="end">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{perfil.usuario}}</ion-card-title>
+    </ion-card-header>
+
+
+    <ion-card-content>
+      <ion-item>
+        <p>Usuario :</p>
+        <p>{{perfil.usuario}}</p>
+      </ion-item>
+      <ion-item>
+        <p>Correo :</p>
+        <p>{{perfil.correo}}</p>
+      </ion-item>
+      <ion-item>
+        <p>Clave :</p>
+        <p>{{perfil.clave}}</p>
+      </ion-item>
+      <ion-item>
+        <p>Fecha de Nacimiento :</p>
+        <p>{{perfil.fechanacimiento | date:'short'}}</p>
+      </ion-item>
+
+
+      <!-- Aquí puedes agregar más campos según la estructura de tu perfil -->
+
+
+      <ion-button type="button" shape="round" color="primary" expand="block" href="/perfil-edit/{{perfil.id}}">Editar</ion-button>
+      <ion-button type="button" shape="round" color="danger" expand="block" (click)="delete(perfil.id)">Eliminar</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+
+
+
+

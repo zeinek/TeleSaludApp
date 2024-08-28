@@ -1,0 +1,105 @@
+ion-item {
+  --ion-input-border-color: #000000;
+  --ion-input-placeholder-color: #000000;
+  margin-bottom: 15px;
+
+  ion-input {
+    --color: #008cffc4; /* Color de texto predeterminado */
+    --placeholder-color: #008cffc4; /* Color del texto de marcador de posición */
+
+    &:focus {
+      --color: #008cffc4; /* Color de texto cuando está enfocado (celeste) */
+      --placeholder-color: #008cffc4; /* Color del marcador de posición cuando está enfocado (celeste) */
+    }
+  }
+}
+
+/* Resto de tu código CSS */
+
+/* Resto de tu código CSS */
+
+ion-content {
+  --background: #ffffff;
+  --ion-background-color: #ffffff;
+  --ion-text-color: #000000;
+  --ion-color-step-500: #192129;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+
+  ion-item {
+    --ion-input-border-color: #000000;
+    --ion-input-placeholder-color: #000000;
+    margin-bottom: 15px;
+  }
+
+  ion-button {
+    margin-top: 20px;
+    --background: var(--ion-color-primary);
+    --color: #ffffff;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+
+    ion-button {
+      margin: 0 10px;
+    }
+  }
+
+  .header-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #013661c4; 
+    font-weight: bold;
+    text-align: center;
+
+    .subtitle {
+      font-size: 18px;
+      font-weight: normal;
+      color: #0e0b0b;
+    }
+
+    .welcome {
+      font-size: 24px;
+      color: #000000; 
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .header-title {
+      font-size: 24px;
+
+      .subtitle {
+        font-size: 16px;
+      }
+
+      .welcome {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+
+ion-content[_ngcontent-ng-c1503954710]{
+  --background:rgb(31, 153, 147);
+}
+
+ion-content[_ngcontent-ng-c1503954710] .header-title[_ngcontent-ng-c1503954710] .welcome[_ngcontent-ng-c1503954710]{
+  color: white;
+}
+
+
+ion-content[_ngcontent-ng-c1503954710] .header-title[_ngcontent-ng-c1503954710] .subtitle[_ngcontent-ng-c1503954710]{
+  color: white;
+}

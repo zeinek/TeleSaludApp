@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Nuevo Perfil </ion-title>
+    <ion-buttons slot="end">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="perfilForm" (ngSubmit)="onFormSubmit()">
+    <ion-item>
+      <ion-label position="floating">Usuario</ion-label>
+      <ion-input type="text" formControlName="perfil_user" [(ngModel)]="perfil.usuario"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Clave</ion-label>
+      <ion-input type="password" formControlName="perfil_clave" [(ngModel)]="perfil.clave"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Correo</ion-label>
+      <ion-input type="text" formControlName="perfil_email" [(ngModel)]="perfil.correo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Fecha de Nacimiento</ion-label>
+      <ion-input type="date" formControlName="perfil_fechanacimiento" [(ngModel)]="perfil.fechanacimiento"></ion-input>
+    </ion-item>
+
+
+    <ion-button type="submit" shape="round" color="primary" expand="block"
+      [disabled]="!perfilForm.valid">Submit</ion-button>
+  </form>
+</ion-content>
+
+
+
+
+
+
+

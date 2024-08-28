@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>product-edit</ion-title>
+    <ion-buttons slot="end">
+      <ion-back-button defaultHref="/product-list"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <div *ngIf="productForm">
+    <form [formGroup]="productForm" (ngSubmit)="onFormSubmit()">
+      <ion-item>
+        <ion-label position="floating">Nombre del Producto</ion-label>
+        <ion-input type="text" formControlName="nombreprod"></ion-input>
+      </ion-item>
+      <div *ngIf="nombreprodErrorL" class="error-message">
+        {{ nombreprodErrorL }}
+      </div>
+    <ion-item>
+  <ion-label position="stacked">Descripción</ion-label>
+  <ion-input formControlName="direccion" type="text"></ion-input>
+</ion-item>
+      <ion-item>
+        <ion-label position="stacked">Precio</ion-label>
+        <ion-textarea formControlName="precio"></ion-textarea>
+      </ion-item>
+      <div *ngIf="precioErrorL" class="error-message">
+        {{ precioErrorL }}
+      </div>
+     
+      <ion-button type="submit" shape="round" color="primary" expand="block" [disabled]="!productForm.valid">Submit</ion-button>
+    </form>
+  </div>
+</ion-content>
+
+
