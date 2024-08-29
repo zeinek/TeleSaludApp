@@ -21,7 +21,7 @@ ion-item {
 ion-content {
   --background: #ffffff;
   --ion-background-color: #ffffff;
-  --ion-text-color: #000000;
+  --ion-text-color: #fcfcfd;
   --ion-color-step-500: #192129;
 
   display: flex;
@@ -32,8 +32,8 @@ ion-content {
   padding: 20px;
 
   ion-item {
-    --ion-input-border-color: #000000;
-    --ion-input-placeholder-color: #000000;
+    --ion-input-border-color: #f7f7fa;
+    --ion-input-placeholder-color: #f0f3f7;
     margin-bottom: 15px;
   }
 
@@ -62,9 +62,9 @@ ion-content {
     text-align: center;
 
     .subtitle {
-      font-size: 18px;
-      font-weight: normal;
-      color: #0e0b0b;
+      font-size: 30px;
+      color: #4332e2;
+      font-weight: bold;
     }
 
     .welcome {
@@ -103,3 +103,4 @@ ion-content[_ngcontent-ng-c1503954710] .header-title[_ngcontent-ng-c1503954710] 
 ion-content[_ngcontent-ng-c1503954710] .header-title[_ngcontent-ng-c1503954710] .subtitle[_ngcontent-ng-c1503954710]{
   color: white;
 }
+
