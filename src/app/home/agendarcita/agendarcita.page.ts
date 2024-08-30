@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-agendarcita',
@@ -7,19 +8,57 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./agendarcita.page.scss'],
 })
 export class AgendarcitaPage {
-  cita = {
-    nombre: '',
-    fecha: '',
-    hora: '',
-    descripcion: ''
-  };
+  nombre: string = '';
+  correo: string = '';
+  fecha: string = '';
 
-  constructor(private navCtrl: NavController) {}
+  constructor(
+    private alertController: AlertController,
+    private toastController: ToastController,
+    private router: Router
+  ) {}
 
-  agendarCita() {
-    console.log('Cita agendada:', this.cita);
-    // Aquí puedes manejar la lógica para guardar la cita, enviar a un backend, etc.
-    this.navCtrl.back(); // Regresar a la página anterior después de agendar
+  async agendarCita() {
+    if (this.nombre && this.correo && this.fecha) {
+      const alert = await this.alertController.create({
+        header: `Cita Agendada para ${this.nombre}`,
+        buttons: [
+          {
+            text: 'OK',
+            handler: () => {
+              this.resetForm();
+              this.presentToast('Has sido redirigido al inicio.');
+              this.router.navigate(['/home']);
+            },
+          },
+        ],
+      });
+
+      await alert.present();
+    } else {
+      const alert = await this.alertController.create({
+        header: 'Formulario Incompleto',
+        message: 'Por favor, complete todos los datos antes de agendar su cita.',
+        buttons: ['OK'],
+      });
+
+      await alert.present();
+    }
+  }
+
+  resetForm() {
+    this.nombre = '';
+    this.correo = '';
+    this.fecha = '';
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      position: 'bottom',
+      color: 'primary',
+    });
+    toast.present();
   }
 }
-
