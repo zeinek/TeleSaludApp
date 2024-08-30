@@ -1,0 +1,27 @@
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>TeleSalud</ion-title>
+  </ion-toolbar>  
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+  <ion-header>
+  </ion-header>
+  <ion-content>
+    <ion-list [inset]="true">
+      <ion-item [button]="true" detail="false">
+        <div class="unread-indicator-wrapper" slot="start">
+          <div class="unread-indicator"></div>
+        </div>
+        <ion-label>
+          <strong>Cita 1</strong>
+          <ion-note color="medium" class="ion-text-wrap">
+            Hola Kevin su cita fue reprogramada para el dia 05/10/2024
+          </ion-note>
+        </ion-label>
+        <div class="metadata-end-wrapper" slot="end">
+          <ion-note color="medium">06:11</ion-note>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ion-content>

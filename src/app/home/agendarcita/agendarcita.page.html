@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>TeleSalud</ion-title>
+  </ion-toolbar>
+  <ion-content>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Agende su Cita</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form (ngSubmit)="agendarCita()">
+          <ion-item>
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input type="text" [(ngModel)]="cita.nombre" name="nombre" required></ion-input>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="floating">Fecha</ion-label>
+            <ion-datetime display-format="DD/MM/YYYY" [(ngModel)]="cita.fecha" name="fecha" required></ion-datetime>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="floating">Hora</ion-label>
+            <ion-datetime display-format="h:mm A" picker-format="h:mm A" [(ngModel)]="cita.hora" name="hora" required></ion-datetime>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="floating">Descripción</ion-label>
+            <ion-textarea [(ngModel)]="cita.descripcion" name="descripcion"></ion-textarea>
+          </ion-item>
+  
+          <ion-button expand="block" type="submit">Agendar</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+  
+</ion-header>

@@ -4,6 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 
 
+
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' }, // Redirige a la página de login por defecto
   {
@@ -23,8 +24,18 @@ const routes: Routes = [
     loadChildren: () => import('./resetpass/resetpass.module').then( m => m.ResetpassPageModule)
   },
 
-  
-  
+  {
+    path: 'correo',
+    loadChildren: () => import('./home/correo/correo.module').then( m => m.CorreoPageModule)
+  },
+  {
+    path: 'citas',
+    loadChildren: () => import('./home/citas/citas.module').then( m => m.CitasPageModule)
+  },
+  {
+    path: 'agendarcita',
+    loadChildren: () => import('./home/agendarcita/agendarcita.module').then( m => m.AgendarcitaPageModule)
+  },
 
  
 

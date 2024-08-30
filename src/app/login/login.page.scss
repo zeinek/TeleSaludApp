@@ -19,9 +19,9 @@ ion-item {
 /* Resto de tu código CSS */
 
 ion-content {
-  --background: #ffffff;
+  --background: #26A69A;
   --ion-background-color: #ffffff;
-  --ion-text-color: #fcfcfd;
+  --ion-text-color: #ffffff;
   --ion-color-step-500: #192129;
 
   display: flex;
@@ -32,15 +32,15 @@ ion-content {
   padding: 20px;
 
   ion-item {
-    --ion-input-border-color: #f7f7fa;
-    --ion-input-placeholder-color: #f0f3f7;
+    --ion-input-border-color: #000000;
+    --ion-input-placeholder-color: #000000;
     margin-bottom: 15px;
   }
 
   ion-button {
     margin-top: 20px;
     --background: var(--ion-color-primary);
-    --color: #ffffff;
+    --color: #000000;
   }
 
   .button-container {
@@ -57,19 +57,19 @@ ion-content {
   .header-title {
     font-size: 28px;
     margin-bottom: 20px;
-    color: #013661c4; 
+    color: #ffff; 
     font-weight: bold;
     text-align: center;
 
     .subtitle {
-      font-size: 30px;
-      color: #4332e2;
-      font-weight: bold;
+      font-size: 18px;
+      font-weight: normal;
+      color: #48646e;
     }
 
     .welcome {
       font-size: 24px;
-      color: #000000; 
+      color: #48646e; 
       font-weight: bold;
       margin-top: 10px;
     }
@@ -84,7 +84,7 @@ ion-content {
       }
 
       .welcome {
-        font-size: 20px;
+        font-size: 24px;
       }
     }
   }
