@@ -1,82 +1,62 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>TeleSalud</ion-title>
-  </ion-toolbar>
-</ion-header>
-
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-back-button default-href="/login"></ion-back-button>
+  </ion-buttons>
+  <ion-title>TeleSalud</ion-title>
+</ion-toolbar>  
 
 <ion-content [fullscreen]="true">
-
-
-  <ion-card>
-    <ion-card-header class="ion-text-center">
-      <ion-card-title>Regístrate</ion-card-title>
-    </ion-card-header>
-
-
-    <ion-card-content>
-      <ion-list>
-        <ion-item>
-          <ion-label position="floating">Usuario</ion-label>
-          <ion-input [(ngModel)]="usuario" name="usuario" required (ionChange)="onUsuarioChange()"></ion-input>
-        </ion-item>
-        <div *ngIf="usuarioError" class="error-message">
-          {{ usuarioError }}
-        </div>
-
-
-        <ion-item>
-          <ion-label position="floating">Email</ion-label>
-          <ion-input [(ngModel)]="email" name="email" type="email" required (ionChange)="onEmailChange()"></ion-input>
-        </ion-item>
-        <div *ngIf="emailError" class="error-message">
-          {{ emailError }}
-        </div>
-
-
-        <ion-item>
-          <ion-label position="floating">Fecha de Nacimiento</ion-label>
-          <ion-input type="date" [(ngModel)]="fechaNacimiento" name="fechaNacimiento" required (ionChange)="onFechaNacimientoChange()"></ion-input>
-        </ion-item>
-        <div *ngIf="fechaError" class="error-message">
-          {{ fechaError }}
-        </div>
-
-
-        <ion-item>
-          <ion-label position="floating">Contraseña</ion-label>
-          <ion-input [(ngModel)]="contrasena" name="clave" type="password" [type]="mostrarContrasena ? 'text' : 'password'" (ionChange)="onContrasenaChange()"></ion-input>
-          <ion-icon position="floating" class="eye-icon" name="eye" slot="end" (click)="toggleMostrarClave()"></ion-icon>
-        </ion-item>
-        <div *ngIf="contrasenaError" class="error-message">
-          {{ contrasenaError }}
-        </div>
-
-
-        <ion-item>
-          <ion-label position="floating">Repetir Clave</ion-label>
-          <ion-input [(ngModel)]="recontrasena" name="repetirClave" type="password" required (ionChange)="onRepetirClaveChange()"></ion-input>
-          <ion-icon position="floating" class="eye-icon" name="eye" slot="end"></ion-icon>
-        </ion-item>
-        <div *ngIf="error" class="error-message">
-          {{ error }}
-        </div>
-      </ion-list>
-
-
-      <ion-button expand="full" size="small" class="custom-button" (click)="enviarRegistro()">Enviar Registro</ion-button>
-
-
-    </ion-card-content>
-  </ion-card>
-
-
+  <ion-row>
+    <ion-col size="12" size-md="8" offset-md="2">
+      <ion-card>
+        <ion-card-header class="ion-text-center">
+          <ion-card-title>Regístrate  Aquí!</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <ion-item>
+              <ion-label position="floating">Usuario</ion-label>
+              <ion-input [(ngModel)]="usuario" name="usuario" required (ionChange)="onUsuarioChange()"></ion-input>
+            </ion-item>
+            <div *ngIf="usuarioError" class="error-message">
+              {{ usuarioError }}
+            </div>
+            <ion-item>
+              <ion-label position="floating">Email</ion-label>
+              <ion-input [(ngModel)]="email" name="email" type="email" required (ionChange)="onEmailChange()"></ion-input>
+            </ion-item>
+            <div *ngIf="emailError" class="error-message">
+              {{ emailError }}
+            </div>
+            <ion-item>
+              <ion-label position="floating">Fecha de Nacimiento</ion-label>
+              <ion-input type="date" [(ngModel)]="fechaNacimiento" name="fechaNacimiento" required (ionChange)="onFechaNacimientoChange()"></ion-input>
+            </ion-item>
+            <div *ngIf="fechaError" class="error-message">
+              {{ fechaError }}
+            </div>
+            <ion-item>
+              <ion-label position="floating">Contraseña</ion-label>
+              <ion-input [(ngModel)]="contrasena" name="clave" type="password" [type]="mostrarContrasena ? 'text' : 'password'" (ionChange)="onContrasenaChange()"></ion-input>
+              <ion-icon position="floating" class="eye-icon" name="eye" slot="end" (click)="toggleMostrarClave()"></ion-icon>
+            </ion-item>
+            <div *ngIf="contrasenaError" class="error-message">
+              {{ contrasenaError }}
+            </div>
+            <ion-item>
+              <ion-label position="floating">Repetir Clave</ion-label>
+              <ion-input [(ngModel)]="recontrasena" name="repetirClave" type="password" required (ionChange)="onRepetirClaveChange()"></ion-input>
+              <ion-icon position="floating" class="eye-icon" name="eye" slot="end"></ion-icon>
+            </ion-item>
+            <div *ngIf="error" class="error-message">
+              {{ error }}
+            </div>
+          </ion-list>
+          <ion-button expand="full" size="small" class="custom-button" (click)="enviarRegistro()">Enviar Registro</ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
 </ion-content>
 
 

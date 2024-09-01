@@ -1,0 +1,92 @@
+<ion-app>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>TeleSalud</ion-title>
+  </ion-toolbar>  
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+  <ion-header>
+  </ion-header>
+  <ion-content>
+    <ion-list [inset]="true">
+      <ion-item [button]="true">
+        <ion-icon color="danger" slot="start" name="list-circle" size="large"></ion-icon>
+        <ion-label>Bandeja de entrada</ion-label>
+        <ion-note slot="end">6</ion-note>
+      </ion-item>
+      <ion-item [button]="true">
+        <ion-icon color="tertiary" slot="start" name="list-circle" size="large"></ion-icon>
+        <ion-label>Compras</ion-label>
+        <ion-note slot="end">15</ion-note>
+      </ion-item>
+      <ion-item [button]="true">
+        <ion-icon color="success" slot="start" name="list-circle" size="large"></ion-icon>
+        <ion-label>Correo no deseado</ion-label>
+        <ion-note slot="end">3</ion-note>
+      </ion-item>
+      <ion-item [button]="true">
+        <ion-icon color="warning" slot="start" name="list-circle" size="large"></ion-icon>
+        <ion-label>Citas</ion-label>
+        <ion-note slot="end">8</ion-note>
+      </ion-item>
+    </ion-list>
+  
+    <ion-list [inset]="true">
+      <ion-item [button]="true" detail="false">
+        <div class="unread-indicator-wrapper" slot="start">
+          <div class="unread-indicator"></div>
+        </div>
+        <ion-label>
+          <strong>Paciente Claudia Gonzalez</strong>
+          <ion-note color="medium" class="ion-text-wrap">
+            Hola Claudia su cita fue reprogramada para el dia 05/10/2024...
+          </ion-note>
+        </ion-label>
+        <div class="metadata-end-wrapper" slot="end">
+          <ion-note color="medium">06:11</ion-note>
+          <ion-icon color="medium" name="chevron-forward"></ion-icon>
+        </div>
+      </ion-item>
+      <ion-item [button]="true" detail="false">
+        <div class="unread-indicator-wrapper" slot="start"></div>
+        <ion-label>
+          <strong>Secretaria Alexa</strong>
+          <ion-note color="medium" class="ion-text-wrap"> Recuerda reprogramar la cita del Sr Alfredo Perez</ion-note>
+        </ion-label>
+        <div class="metadata-end-wrapper" slot="end">
+          <ion-note color="medium">03:44</ion-note>
+          <ion-icon color="medium" name="chevron-forward"></ion-icon>
+        </div>
+      </ion-item>
+      <ion-item [button]="true" detail="false">
+        <div class="unread-indicator-wrapper" slot="start">
+          <div class="unread-indicator"></div>
+        </div>
+        <ion-label>
+          <strong>Steam</strong>
+          <ion-text> Ofertas de Invierno</ion-text><br />
+          <ion-note color="medium" class="ion-text-wrap">
+            That game you added to your wish list 2 years ago is now on sale!
+          </ion-note>
+        </ion-label>
+        <div class="metadata-end-wrapper" slot="end">
+          <ion-note color="medium">Yesterday</ion-note>
+          <ion-icon color="medium" name="chevron-forward"></ion-icon>
+        </div>
+      </ion-item>
+      <ion-item [button]="true" detail="false">
+        <div class="unread-indicator-wrapper" slot="start"></div>
+        <ion-label>
+          <strong>Ionic</strong>
+          <ion-text> Announcing Ionic 7.0</ion-text><br />
+          <ion-note color="medium" class="ion-text-wrap">This version is one more than Ionic 6!</ion-note>
+        </ion-label>
+        <div class="metadata-end-wrapper" slot="end">
+          <ion-note color="medium">Yesterday</ion-note>
+          <ion-icon color="medium" name="chevron-forward"></ion-icon>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-app>

@@ -26,29 +26,17 @@
   text-decoration: none;
 }
 
+
 ion-toolbar{
   --background: #48646e;
 }
 
-img {
-  width: 100%;
-  height:auto;
-}
-
 ion-content {
-  --background: #26A69A;
+--background: #26A69A;
 }
 
 ion-item{
-  --background: #26A69A; 
+  --background: #48646e;
 }
 
 
-ion-list{
-  --background: #26A69A; 
-}
-
-list-md{
-  --background: #26A69A; 
-  --ion-item-background:#26A69A;
-}
