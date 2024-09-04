@@ -27,7 +27,7 @@ export class AgendarcitaPage {
             text: 'OK',
             handler: () => {
               this.resetForm();
-              this.presentToast('Has sido redirigido al inicio.');
+              this.presentToast('Cita agendada exitosamente.');
               this.router.navigate(['/home']);
             },
           },

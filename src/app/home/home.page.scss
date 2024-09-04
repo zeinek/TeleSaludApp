@@ -37,18 +37,34 @@ img {
 
 ion-content {
   --background: #26A69A;
+  --ion-item-background:#26A69A;
+
 }
 
 ion-item{
   --background: #26A69A; 
+  --ion-item-background:#26A69A;
+
 }
 
 
 ion-list{
   --background: #26A69A; 
+  --ion-item-background:#26A69A;
+  --border-color: var(#26A69A);
 }
 
-list-md{
+
+ion-menu{
   --background: #26A69A; 
   --ion-item-background:#26A69A;
+  --border-color:#26A69A;
+  --ion-item-border-color:#26A69A
 }
+
+
+ion-content {
+  --background: var(#26A69A);  // Aplica el color primario al fondo del contenido
+}
+
+

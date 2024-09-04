@@ -3,14 +3,19 @@ ion-toolbar{
 }
 
 ion-card {
-  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 16px rgba(171, 82, 82, 0.2);
   border-radius: 12px;
   padding: 16px;
+  --ion-card-background:#48646e;
 }
 
 ion-card-header {
   background-color:#48646e;
   border-radius: 12px 12px 0 0;
+}
+
+ion-card-content{
+  --ion-card-background:#48646e;
 }
 
 ion-card-title {
@@ -35,7 +40,7 @@ ion-label {
 }
 
 ion-button{
-  --background: #48646e;
+  --background: #26A69A;
   color: white;
   
 }
