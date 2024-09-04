@@ -3,6 +3,7 @@ import { NavController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth-service.service'; // Asegúrate de que la ruta sea correcta
 import { Storage } from '@ionic/storage-angular';
+import { UserService } from '../services/user.service';
 
 
 
@@ -17,7 +18,7 @@ export class LoginPage {
   username: string = '';
   password: string = '';
   usernameErrorL: string = '';
-
+  
 
   passwordErrorL: string = '';
   constructor(
@@ -25,7 +26,8 @@ export class LoginPage {
     private router: Router,
     private toastCtrl: ToastController,
     private AuthService:AuthService,
-    private storage: Storage
+    private storage: Storage,
+    private userService: UserService, 
   ) {}
 
 
@@ -82,6 +84,7 @@ export class LoginPage {
 
 
 
+
    
 
 
@@ -114,7 +117,7 @@ export class LoginPage {
 
     if (isAuthenticated && this.AuthService.isAdmin) {
         // Si el usuario es ADMIN, redirigir a product-list
-        this.router.navigate(['/product-list']);
+        this.router.navigate(['/home']);
     } else if (isAuthenticated) {
         // Si la autenticación es exitosa para otros usuarios, redirigir a home
         this.router.navigate(['/home']);
@@ -145,19 +148,17 @@ export class LoginPage {
 
   crearCuenta() {
     // Mostrar un mensaje cuando se hace clic en el botón "Crea tu cuenta gratis"
-    this.showToast('Crea tu cuenta gratis ahora');
+    this.showToast('Crea tu cuenta gratis ahora mismo.');
 
 
     // Redirigir a la página de registro
-    this.router.navigate(['/register']); // Asegúrate de que '/registro' sea la ruta correcta
+    this.router.navigate(['/register']); // Asegúrate de que '/register' sea la ruta correcta
   }
 
 
   olvidasteContrasena() {
-    // Implementa la lógica para el restablecimiento de contraseña aquí
-    // Por ejemplo, puedes abrir un modal o navegar a una página de restablecimiento de contraseña.
-    // Ejemplo:
-    this.navCtrl.navigateForward(['/resetpass']); // Asegúrate de que '/reset-password' sea la ruta correcta
+
+    this.navCtrl.navigateForward(['/resetpass']); // Asegúrate de que '/resetpass' sea la ruta correcta
   }
 }
 
