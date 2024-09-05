@@ -114,18 +114,30 @@ export class LoginPage {
 
     const isAuthenticated = await this.AuthService.authenticate(this.username, this.password);
 
-
-    if (isAuthenticated && this.AuthService.isAdmin) {
-        // Si el usuario es ADMIN, redirigir a product-list
-        this.router.navigate(['/home']);
-    } else if (isAuthenticated) {
-        // Si la autenticación es exitosa para otros usuarios, redirigir a home
-        this.router.navigate(['/home']);
+    if (isAuthenticated) {
+      // Si la autenticación es exitosa, almacenar el nombre de usuario en Storage
+      await this.storage.set('loggedInUser', this.username);
+  
+      // Redirigir al home
+      this.router.navigate(['/home']);
     } else {
-        // Si la autenticación falla, mostrar un mensaje de error
-        this.showToast('Credenciales incorrectas');
+      // Mostrar un mensaje de error si las credenciales son incorrectas
+      this.showToast('Credenciales incorrectas');
     }
   }
+
+
+    //if (isAuthenticated && this.AuthService.isAdmin) {
+        // Si el usuario es ADMIN, redirigir a product-list
+       // this.router.navigate(['/home']);
+    //} else if (isAuthenticated) {
+        // Si la autenticación es exitosa para otros usuarios, redirigir a home
+      //  this.router.navigate(['/home']);
+    //} else {
+        // Si la autenticación falla, mostrar un mensaje de error
+    //    this.showToast('Credenciales incorrectas');
+  //  }
+  //}
  
 
 
