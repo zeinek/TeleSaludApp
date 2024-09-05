@@ -17,14 +17,18 @@
             <form (submit)="agendarCita()">
               <ion-item lines="full">
                 <ion-label position="floating">Nombre Completo</ion-label>
+                <br>
                 <ion-input [(ngModel)]="nombre" name="nombre" required></ion-input>
               </ion-item>
               <ion-item lines="full">
                 <ion-label position="floating">Correo Electrónico</ion-label>
+                <br>
                 <ion-input [(ngModel)]="correo" name="correo" type="email" required></ion-input>
               </ion-item>
               <ion-item lines="full">
                 <ion-label position="floating">Fecha de la Cita</ion-label>
+                <br>
+                <br>
                 <ion-datetime 
                   [(ngModel)]="fecha"
                   name="fecha"
