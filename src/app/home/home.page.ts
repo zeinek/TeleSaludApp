@@ -37,7 +37,7 @@ export class HomePage implements OnInit {
 
     // Personalizar el saludo
     if (username) {
-      this.saludo = `Bienvenido(a) ${username}`;
+      this.saludo = `Bienvenido(a) a TeleSalud ${username}`;
     } else {
       this.saludo = 'Hola, bienvenido(a) a TeleSalud';
     }
