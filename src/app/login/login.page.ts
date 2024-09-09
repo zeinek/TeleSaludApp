@@ -80,14 +80,6 @@ export class LoginPage {
     }
 
 
-
-
-
-
-
-   
-
-
  
     // Realiza la autenticación (verifica el nombre de usuario y la contraseña)
  
@@ -139,14 +131,6 @@ export class LoginPage {
   //  }
   //}
  
-
-
-
-
- 
-
-
-
 
   async showToast(message: string) {
     const toast = await this.toastCtrl.create({
