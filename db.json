@@ -1,0 +1,22 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "nombre": "sergio",
+            "clave": "J.12mm8",
+            "id_rol": 1
+        },
+        {
+            "id": 2,
+            "nombre": "samuel",
+            "clave": "B.34vf8",
+            "id_rol": 2
+        },
+        {
+            "id": 3,
+            "nombre": "kevin",
+            "clave": "C.54yt78",
+            "id_rol": 2
+        }
+    ]
+}
