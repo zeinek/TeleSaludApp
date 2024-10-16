@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' }, // Redirige a la página de login por defecto
+  { path: '', redirectTo: 'home', pathMatch: 'full' }, // Redirige a la página de home por defecto
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule),
@@ -33,6 +33,10 @@ const routes: Routes = [
   {
     path: 'agendarcita',
     loadChildren: () => import('./home/agendarcita/agendarcita.module').then( m => m.AgendarcitaPageModule)
+  },
+  {
+    path: 'main',
+    loadChildren: () => import('./main/main.module').then( m => m.MainPageModule)
   },
 
  

@@ -111,7 +111,7 @@ export class LoginPage {
       await this.storage.set('loggedInUser', this.username);
   
       // Redirigir al home
-      this.router.navigate(['/home']);
+      this.router.navigate(['/main']);
     } else {
       // Mostrar un mensaje de error si las credenciales son incorrectas
       this.showToast('Credenciales incorrectas');

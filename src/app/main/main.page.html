@@ -1,0 +1,69 @@
+
+  <ion-app>
+    <ion-menu contentId="main-content">
+      <ion-header>
+        <ion-toolbar>
+          <ion-label>Bienvenidos</ion-label>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-item routerLink="/correo">
+            <ion-icon name="mail" slot="start"></ion-icon>
+            <ion-label>Correos</ion-label>
+            <ion-item>
+              <ion-badge color="danger">13</ion-badge>
+            </ion-item>
+          </ion-item>
+          <ion-item routerLink="/proximamente">
+            <ion-icon name="person" slot="start"></ion-icon>
+            <ion-label>Mi Perfil</ion-label>
+          </ion-item>
+          <ion-item routerLink="/citas">
+            <ion-icon name="document" slot="start"></ion-icon>
+            <ion-label>Mis Citas</ion-label>
+          </ion-item>
+          <ion-item routerLink="/agendarcita">
+            <ion-icon name="clipboard" slot="start"></ion-icon>
+            <ion-label>Agendar cita</ion-label>
+          </ion-item>
+          <ion-item routerLink="/lenguaje">
+            <ion-icon name="globe" slot="start"></ion-icon>
+            <ion-label>Idioma</ion-label>
+          </ion-item>
+          <ion-item routerLink="/proximamente">
+            <ion-icon name="settings" slot="start"></ion-icon>
+            <ion-label>Configuración</ion-label>
+          </ion-item>
+          <ion-item routerLink="/proximamente">
+            <ion-icon name="lock-closed" slot="start"></ion-icon>
+            <ion-label>Política de Privacidad</ion-label>
+          </ion-item>
+          <ion-item routerLink="/home">
+            <ion-icon name="log-out" slot="start"></ion-icon>
+            <ion-label>Cerrar Sesión</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+  
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+   
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>TeleSalud</ion-title>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+  
+    <ion-content class="ion-padding">
+      <div class="ion-padding" style="margin-top: 50px; text-align: auto;">
+        <img src="https://telesalud.gob.cl/assets/foto1.e4779f16.jpg" alt="TeleSalud">
+        <h1>Tu CESFAM más cerca de ti</h1>
+        <p>Aquí podrás solicitar atenciones presenciales o remotas de profesionales de tu CESFAM</p>
+      </div>
+    </ion-content>
+  </ion-app>
+  
