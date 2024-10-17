@@ -28,7 +28,7 @@ const routes: Routes = [
   },
   {
     path: 'citas',
-    loadChildren: () => import('./home/citas/citas.module').then( m => m.CitasPageModule)
+    loadChildren: () => import('./citas/citas.module').then( m => m.CitasPageModule)
   },
   {
     path: 'agendarcita',
@@ -37,10 +37,6 @@ const routes: Routes = [
   {
     path: 'main',
     loadChildren: () => import('./main/main.module').then( m => m.MainPageModule)
-  },
-  {
-    path: 'appointments',
-    loadChildren: () => import('./appointments/appointments.module').then( m => m.AppointmentsPageModule)
   },
 
  
