@@ -36,8 +36,8 @@
 
   <ion-item>
     <ion-input placeholder="Nombre" [(ngModel)]="newCita.nombre"></ion-input>
-    <ion-input placeholder="Fecha (DD/MM/AAAA)" [(ngModel)]="newCita.fecha" type="date"></ion-input>
-    <ion-input placeholder="Hora (HH:MM)" [(ngModel)]="newCita.hora" type="time"></ion-input>
+    <ion-input placeholder="Fecha" [(ngModel)]="newCita.fecha" type="date"></ion-input>
+    <ion-input placeholder="Hora" [(ngModel)]="newCita.hora" type="time"></ion-input>
     <ion-button (click)="addCita()">
       {{ editingIndex !== null ? 'Guardar Cambios' : 'Agregar Cita' }}
     </ion-button>
