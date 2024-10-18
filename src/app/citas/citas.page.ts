@@ -1,48 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CitasService, Cita } from 'src/app/services/citas.service';
 
 @Component({
   selector: 'app-citas',
   templateUrl: './citas.page.html',
   styleUrls: ['./citas.page.scss'],
 })
-export class CitasPage {
-  citas: any[] = [];
-  newCita = { nombre: '', fecha: '', hora: '' };
-  editingIndex: number | null = null; 
+export class CitasPage implements OnInit {
+  citas: Cita[] = [];
+  newCita: Cita = { nombre: '', fecha: '', hora: '' };
 
-  constructor() {}
+  constructor(private citasService: CitasService) {}
 
-  // Agregar o editar cita
+  ngOnInit() {
+    this.loadCitas();
+  }
+
+  loadCitas() {
+    this.citasService.getCitas().subscribe((data) => {
+      this.citas = data;
+    });
+  }
+
   addCita() {
-    if (this.newCita.nombre && this.newCita.fecha && this.newCita.hora) {
-      if (this.editingIndex !== null) {
-        this.citas[this.editingIndex] = { ...this.newCita };
-        this.editingIndex = null; // Reiniciamos el índice de edición
-      } else {
-        // Si no estamos editando, agregamos una nueva cita
-        this.citas.push({ ...this.newCita });
-      }
-
-      this.newCita = { nombre: '', fecha: '', hora: '' }; // Limpiar los campos después de agregar o editar
-    } else {
-      // Manejar validación si alguno de los campos está vacío
-      console.log('Por favor, complete todos los campos.');
-    }
+    this.citasService.addCita(this.newCita).subscribe((cita) => {
+      this.citas.push(cita);
+      this.newCita = { nombre: '', fecha: '', hora: '' }; // Resetear el formulario
+    });
   }
 
-  // Preparar la cita para editarla
-  editCita(cita: any, index: number) {
-    this.newCita = { ...cita }; // Cargar los datos de la cita en el formulario
-    this.editingIndex = index; // Guardar el índice de la cita que se va a editar
+  editCita(cita: Cita) {
+    this.newCita = cita;
   }
 
-  // Eliminar cita
-  deleteCita(index: number) {
-    this.citas.splice(index, 1); // Eliminar cita en el índice dado
-    if (this.editingIndex === index) {
-      // Si estamos editando la misma cita que eliminamos, limpiar el formulario
-      this.newCita = { nombre: '', fecha: '', hora: '' };
-      this.editingIndex = null;
-    }
+  deleteCita(id: number) {
+    this.citasService.deleteCita(id).subscribe(() => {
+      this.citas = this.citas.filter(c => c.id !== id);
+    });
   }
 }
