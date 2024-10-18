@@ -3,26 +3,43 @@
     <ion-back-button default-href="/home"></ion-back-button>
   </ion-buttons>
   <ion-title>Citas Telesalud</ion-title>
-</ion-toolbar>  
+</ion-toolbar> 
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let cita of citas">
+  <ion-header collapse="condense">
+    <ion-toolbar class="header-toolbar">
+      <ion-title class="page-title">
+        <ion-icon name="calendar-outline" slot="start" class="title-icon"></ion-icon> Agenda
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list class="cita-list">
+    <ion-item *ngFor="let cita of citas; let i = index" lines="none" class="cita-item">
+      <ion-avatar slot="start" class="cita-avatar">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-avatar>
       <ion-label>
-        <h2>{{ cita.nombre }}</h2>
-        <p>{{ cita.fecha }} a las {{ cita.hora }}</p>
+        <h2 class="cita-nombre">{{ cita.nombre }}</h2>
+        <p class="cita-info">{{ cita.fecha }} - {{ cita.hora }}</p>
       </ion-label>
-      <ion-button fill="outline" slot="end" (click)="editCita(cita)">Editar</ion-button>
-      <ion-button fill="outline" color="danger" (click)="deleteCita(cita.id ?? 0)">
-        Eliminar
-      </ion-button>
-          </ion-item>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" color="medium" (click)="editCita(cita, i)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" color="danger" (click)="deleteCita(i)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
   </ion-list>
 
   <ion-item>
     <ion-input placeholder="Nombre" [(ngModel)]="newCita.nombre"></ion-input>
-    <ion-input placeholder="Fecha " [(ngModel)]="newCita.fecha"></ion-input>
-    <ion-input placeholder="Hora" [(ngModel)]="newCita.hora"></ion-input>
-    <ion-button (click)="addCita()">Agregar</ion-button>
+    <ion-input placeholder="Fecha (DD/MM/AAAA)" [(ngModel)]="newCita.fecha" type="date"></ion-input>
+    <ion-input placeholder="Hora (HH:MM)" [(ngModel)]="newCita.hora" type="time"></ion-input>
+    <ion-button (click)="addCita()">
+      {{ editingIndex !== null ? 'Guardar Cambios' : 'Agregar Cita' }}
+    </ion-button>
   </ion-item>
 </ion-content>
