@@ -4,16 +4,7 @@
   </ion-buttons>
   <ion-title>Citas Telesalud</ion-title>
 </ion-toolbar> 
-
 <ion-content>
-  <ion-header collapse="condense">
-    <ion-toolbar class="header-toolbar">
-      <ion-title class="page-title">
-        <ion-icon name="calendar-outline" slot="start" class="title-icon"></ion-icon> Agenda
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <ion-list class="cita-list">
     <ion-item *ngFor="let cita of citas; let i = index" lines="none" class="cita-item">
       <ion-avatar slot="start" class="cita-avatar">
