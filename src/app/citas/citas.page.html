@@ -7,21 +7,38 @@
 
 <ion-content>
   <ion-list>
+    <!-- Mostrar la lista de citas -->
     <ion-item *ngFor="let cita of citas">
       <ion-label>
-        <h2>{{ cita.nombre }}</h2>
-        <p>{{ cita.fecha }} a las {{ cita.hora }}</p>
+        {{ cita.nombre }} - {{ cita.fecha }} - {{ cita.hora }}
       </ion-label>
-      <ion-button fill="outline" slot="end" (click)="editCita(cita)">Editar</ion-button>
+      <ion-button (click)="editCita(cita)">Actualizar cita</ion-button>
       <ion-button fill="outline" color="danger" (click)="deleteCita(cita.id ?? 0)">
         Eliminar
       </ion-button>
-          </ion-item>
+      </ion-item>
   </ion-list>
+
+  <!-- Formulario para agregar/editar citas -->
   <ion-item>
-    <ion-input placeholder="Nombre" [(ngModel)]="newCita.nombre"></ion-input>
-    <ion-input placeholder="Fecha" [(ngModel)]="newCita.fecha" type="date"></ion-input>
-    <ion-input placeholder="Hora" [(ngModel)]="newCita.hora" type="time"></ion-input>
-    <ion-button (click)="addCita()">Agregar cita</ion-button>
+    <ion-label position="floating">Nombre</ion-label>
+    <ion-input [(ngModel)]="newCita.nombre"></ion-input>
   </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Fecha</ion-label>
+    <ion-input type="date" [(ngModel)]="newCita.fecha"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Hora</ion-label>
+    <ion-input type="time" [(ngModel)]="newCita.hora"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" *ngIf="!isEditing" (click)="addCita()">Agregar Cita</ion-button>
+
+  <ion-button expand="block" *ngIf="isEditing" (click)="confirmUpdateCita()">Confirmar Actualización</ion-button>
+
+  <ion-button expand="block" color="medium" *ngIf="isEditing" (click)="resetForm()">Cancelar Edición</ion-button>
+
 </ion-content>
