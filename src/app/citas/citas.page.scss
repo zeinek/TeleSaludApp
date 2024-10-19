@@ -11,3 +11,28 @@ ion-card {
     margin-top: 15px;
   }
   
+
+  
+ion-content {
+  --background: #26A69A;
+  --ion-item-background:#26A69A;
+
+}
+
+ion-item{
+  --background: #26A69A; 
+  --ion-item-background:#26A69A;
+
+}
+
+
+ion-list{
+  --background: #26A69A; 
+  --ion-item-background:#26A69A;
+  --border-color: var(#26A69A);
+}
+
+ion-toolbar{
+  --background: #48646e;
+  --ion-item-background:#26A69A;
+}
