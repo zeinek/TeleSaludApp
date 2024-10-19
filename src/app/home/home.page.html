@@ -1,11 +1,11 @@
 <ion-content [fullscreen]="true">
-  <p>Version 1.0.2</p>  
-  
-      <div id="container1">
-        <img src="assets/img/logo1.png" alt="Logo TeleSalud" style="height: 120px;">
-      </div>
-  
-    <div id="container">
-      <ion-button routerLink="/login" color="black" (click)="presentAlert()">Comenzar</ion-button>
-    </div>
-  </ion-content>
+  <div class="logo-container">
+    <img src="assets/img/Logo Telesalud.webp" alt="Logo TeleSalud" class="animated-logo">
+  </div>
+
+  <div id="container">
+    <ion-button routerLink="/login" color="black" (click)="presentAlert()">Comenzar</ion-button>
+  </div>
+
+  <p class="version-text">Version 1.0.2</p>
+</ion-content>
