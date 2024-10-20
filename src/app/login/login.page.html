@@ -1,42 +1,70 @@
+<ion-content class="ion-padding fade-in login-page">
+  <div class="header-title">
+    <div class="welcome">Bienvenidos a TeleSalud</div>
+    <br>
+    <br>
+    <div class="Title">Iniciar Sesión</div>
+  </div>
+  
+  <!-- Campo Usuario -->
+  <ion-item>
+    <ion-label position="stacked">Usuario</ion-label>
+    <ion-input type="text" [(ngModel)]="username"></ion-input>
+  </ion-item>
+  <div *ngIf="usernameErrorL" class="error-message">
+    {{ usernameErrorL }}
+  </div>
 
-  <ion-content  class="ion-padding fade-in login-page">
-    <div class="header-title">
-      <div class="welcome">Bienvenidos a TeleSalud</div>
-      <br>
-      <br>
-      <div class="Title">Iniciar Sesión</div>
-    </div>
-    
-    <ion-item>
-      <ion-label position="stacked">Usuario</ion-label>
-      <ion-input type="text" [(ngModel)]="username"></ion-input>
-    </ion-item>
-    <div *ngIf="usernameErrorL" class="error-message">
-      {{ usernameErrorL }}
-    </div>
-    <ion-item>
-      <ion-label position="stacked">Contraseña</ion-label>
-      <ion-input type="password" [(ngModel)]="password"></ion-input>
-    </ion-item>
-    <div *ngIf="passwordErrorL" class="error-message">
-      {{ passwordErrorL }}
-    </div>
-   
+  <!-- Campo Contraseña con mostrar/ocultar -->
+  <ion-item>
+    <ion-label position="stacked">Contraseña</ion-label>
+    <ion-input [type]="mostrarContrasena ? 'text' : 'password'" [(ngModel)]="password"></ion-input>
+    <ion-icon [name]="mostrarContrasena ? 'eye-off' : 'eye'" slot="end" (click)="toggleMostrarContrasena()"></ion-icon>
+  </ion-item>
+  <div *ngIf="passwordErrorL" class="error-message">
+    {{ passwordErrorL }}
+  </div>
 
+  <!-- Botón de Ingresar -->
+  <ion-button expand="full" (click)="login()">Ingresar</ion-button>
 
-    <ion-button expand="full" (click)="login()">Ingresar</ion-button>
+  <!-- Botón para Crear Cuenta -->
+  <ion-button expand="full" color="secondary" (click)="crearCuenta()">Crear cuenta</ion-button>
 
+  <!-- Botón para Olvidar Contraseña -->
+  <ion-button expand="full" fill="clear" color="black" (click)="olvidasteContrasena()">¿Olvidaste tu contraseña?</ion-button>
 
-    <ion-button expand="full" color="secondary" (click)="crearCuenta()">Crear cuenta</ion-button>
+  <!-- Mensaje de error general -->
+  <div *ngIf="errorMessages.length > 0" class="error-message" style="color: red;">
+    {{ errorMessages[0] }}
+  </div>
+</ion-content>
 
+<!-- Estilos para mensajes de error -->
+<style>
+  .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
 
-    <ion-button expand="full" fill="clear" color="black" (click)="olvidasteContrasena()">¿Olvidaste tu contraseña?</ion-button>
+  .header-title .welcome {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
 
+  .header-title .Title {
+    font-size: 20px;
+    text-align: center;
+  }
 
-    <div class="error-message" style="color: red;"></div>
-  </ion-content>
+  .ion-padding {
+    padding: 16px;
+  }
 
-
-
-
-
+  ion-icon {
+    cursor: pointer;
+  }
+</style>

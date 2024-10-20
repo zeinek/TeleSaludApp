@@ -10,6 +10,7 @@ import { CapacitorSQLite } from '@capacitor-community/sqlite';
 
 
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,IonicStorageModule.forRoot() ],

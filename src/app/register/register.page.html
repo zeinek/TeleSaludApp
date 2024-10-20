@@ -10,56 +10,79 @@
     <ion-col size="12" size-md="8" offset-md="2">
       <ion-card>
         <ion-card-header class="ion-text-center">
-          <ion-card-title>Regístrate  Aquí!</ion-card-title>
+          <ion-card-title>Regístrate Aquí!</ion-card-title>
         </ion-card-header>
         <ion-card-content>
           <ion-list>
+            <!-- Campo Usuario -->
             <ion-item>
               <ion-label position="floating">Usuario</ion-label>
               <ion-input [(ngModel)]="usuario" name="usuario" required (ionChange)="onUsuarioChange()"></ion-input>
             </ion-item>
-            <div *ngIf="usuarioError" class="error-message">
-              {{ usuarioError }}
+            <div class="info-message">
+              El usuario debe contener solo letras.
             </div>
+            <div *ngIf="errores.usuario" class="error-message">
+              {{ errores.usuario }}
+            </div>
+
+            <!-- Campo Email -->
             <ion-item>
               <ion-label position="floating">Email</ion-label>
-              <ion-input [(ngModel)]="email" name="email" type="email" required (ionChange)="onEmailChange()"></ion-input>
+              <ion-input [(ngModel)]="correo" name="email" type="email" required (ionChange)="onEmailChange()"></ion-input>
             </ion-item>
-            <div *ngIf="emailError" class="error-message">
-              {{ emailError }}
+            <div class="info-message">
+              Ingrese un email válido (ejemplo&#64;correo.com).
             </div>
+            <div *ngIf="errores.correo" class="error-message">
+              {{ errores.correo }}
+            </div>
+
+            <!-- Campo Fecha de Nacimiento -->
             <ion-item>
               <ion-label position="floating">Fecha de Nacimiento</ion-label>
               <ion-input type="date" [(ngModel)]="fechaNacimiento" name="fechaNacimiento" required (ionChange)="onFechaNacimientoChange()"></ion-input>
             </ion-item>
-            <div *ngIf="fechaError" class="error-message">
-              {{ fechaError }}
+            <div class="info-message">
+              La fecha debe tener el formato DD-MM-YYYY.
             </div>
+            <div *ngIf="errores.fechaNacimiento" class="error-message">
+              {{ errores.fechaNacimiento }}
+            </div>
+
+            <!-- Campo Contraseña -->
             <ion-item>
               <ion-label position="floating">Contraseña</ion-label>
               <ion-input [(ngModel)]="contrasena" name="clave" type="password" [type]="mostrarContrasena ? 'text' : 'password'" (ionChange)="onContrasenaChange()"></ion-input>
               <ion-icon position="floating" class="eye-icon" name="eye" slot="end" (click)="toggleMostrarClave()"></ion-icon>
             </ion-item>
-            <div *ngIf="contrasenaError" class="error-message">
-              {{ contrasenaError }}
+            <div class="info-message">
+              La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, un número y un carácter especial.
             </div>
+            <div *ngIf="errores.contrasena" class="error-message">
+              {{ errores.contrasena }}
+            </div>
+
+            <!-- Campo Repetir Contraseña -->
             <ion-item>
-              <ion-label position="floating">Repetir Clave</ion-label>
+              <ion-label position="floating">Repetir Contraseña</ion-label>
               <ion-input [(ngModel)]="recontrasena" name="repetirClave" type="password" required (ionChange)="onRepetirClaveChange()"></ion-input>
               <ion-icon position="floating" class="eye-icon" name="eye" slot="end"></ion-icon>
             </ion-item>
+            <div class="info-message">
+              Las contraseñas deben coincidir.
+            </div>
             <div *ngIf="error" class="error-message">
               {{ error }}
             </div>
           </ion-list>
+          
+          <!-- Botón de Enviar Registro -->
           <ion-button expand="full" size="small" class="custom-button" (click)="enviarRegistro()">Enviar Registro</ion-button>
         </ion-card-content>
       </ion-card>
     </ion-col>
   </ion-row>
 </ion-content>
-
-
-
 
 
