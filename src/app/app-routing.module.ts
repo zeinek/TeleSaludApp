@@ -29,7 +29,7 @@ const routes: Routes = [
   {
     path: 'citas',
     loadChildren: () => import('./citas/citas.module').then(m => m.CitasPageModule),
-    canActivate: [AuthGuard],  // Protegiendo la ruta
+    //canActivate: [AuthGuard],  // Protegiendo la ruta
   },
 
   {
