@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-
-
+import { AuthGuard } from './services/auth-guard.guard';  // Asegúrate de importar el guard
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' }, // Redirige a la página de home por defecto
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule),
@@ -12,44 +11,40 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
+    
   },
   {
     path: 'register',
-    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule),
   },
   {
     path: 'resetpass',
-    loadChildren: () => import('./resetpass/resetpass.module').then( m => m.ResetpassPageModule)
+    loadChildren: () => import('./resetpass/resetpass.module').then(m => m.ResetpassPageModule),
   },
-
   {
     path: 'correo',
-    loadChildren: () => import('./home/correo/correo.module').then( m => m.CorreoPageModule)
+    loadChildren: () => import('./home/correo/correo.module').then(m => m.CorreoPageModule),
+    canActivate: [AuthGuard],  // Protegiendo la ruta
   },
   {
     path: 'citas',
-    loadChildren: () => import('./citas/citas.module').then( m => m.CitasPageModule)
+    loadChildren: () => import('./citas/citas.module').then(m => m.CitasPageModule),
+    canActivate: [AuthGuard],  // Protegiendo la ruta
   },
-  {
-    path: 'agendarcita',
-    loadChildren: () => import('./home/agendarcita/agendarcita.module').then( m => m.AgendarcitaPageModule)
-  },
+
   {
     path: 'main',
-    loadChildren: () => import('./main/main.module').then( m => m.MainPageModule)
+    loadChildren: () => import('./main/main.module').then(m => m.MainPageModule),
+    canActivate: [AuthGuard], // Protegiendo la ruta
   },
 
- 
-
-//   {
-//     path: '**',
-//     loadChildren: () => import('./not-found/not-found.module').then( m => m.NotFoundPageModule)
-//   },
-// ##
-
-
+    //{
+    //path: 'agendarcita',
+    //loadChildren: () => import('./home/agendarcita/agendarcita.module').then(m => m.AgendarcitaPageModule),
+    //canActivate: [AuthGuard],  // Protegiendo la ruta
+  //},
+  
 ];
-
 
 @NgModule({
   imports: [
@@ -58,7 +53,3 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
-
-
-
-

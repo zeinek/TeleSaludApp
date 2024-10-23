@@ -13,7 +13,7 @@ export class HomePage {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'TeleSalud DICE:',
-      message: 'Bienvenido',
+      message: 'Bienvenido, Tu CESFAM más cerca de ti. Aquí podrás solicitar atenciones presenciales o remotas de profesionales de tu CESFAM',
       buttons: ['Comenzar'],
     });
 
