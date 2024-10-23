@@ -37,6 +37,11 @@ const routes: Routes = [
     loadChildren: () => import('./main/main.module').then(m => m.MainPageModule),
     //canActivate: [AuthGuard], // Protegiendo la ruta
   },
+  {
+    path: 'proximamente',
+    loadChildren: () => import('./proximamente/proximamente.module').then( m => m.ProximamentePageModule)
+  },
+
 
     //{
     //path: 'agendarcita',
