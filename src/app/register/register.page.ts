@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
+import { AuthService } from '../services/auth-service.service'; // El servicio de autenticación con SQLite
 
 @Component({
   selector: 'app-registro',
@@ -15,35 +15,41 @@ export class RegisterPage {
   correo: string = '';
   error: string = '';
 
-  mostrarContrasena: boolean = false;
-  errores: any = {};
+  mostrarContrasena: boolean = false; // Controla la visibilidad de la contraseña
+  errores: any = {}; // Objeto para almacenar los errores de validación
 
-  constructor(private navCtrl: NavController, private toastController: ToastController, private storage: Storage) {
-    this.storage.create(); // Inicializar el storage
-  }
+  constructor(
+    private navCtrl: NavController,
+    private toastController: ToastController,
+    private authService: AuthService // Utiliza el servicio que maneja SQLite
+  ) {}
 
+  // Función que se llama cuando el usuario envía el formulario de registro
   async enviarRegistro() {
-    // Limpiar los errores previos
-    this.limpiarErrores();
+    this.limpiarErrores(); // Limpia los errores previos antes de validar
 
-    // Realizar las validaciones
+    // Realiza la validación del formulario
     const esValido = this.validarFormulario();
 
     if (esValido) {
-      const usuarioGuardado = await this.guardarUsuario();
+      // Intenta registrar el usuario utilizando SQLite a través del AuthService
+      const usuarioGuardado = await this.authService.registerUser(this.usuario, this.contrasena);
       if (usuarioGuardado) {
+        // Si el usuario se guarda correctamente, muestra un mensaje y redirige a la página de login
         await this.mostrarToast('Registro exitoso', 'success');
         this.navCtrl.navigateForward('/login');
       } else {
+        // Si el usuario ya existe, muestra un error
         this.errores.usuario = 'El usuario ya existe.';
       }
     }
   }
 
+  // Función para validar los campos del formulario
   validarFormulario(): boolean {
     let valido = true;
 
-    // Validar nombre de usuario
+    // Validación del nombre de usuario
     if (!this.usuario) {
       this.errores.usuario = 'El usuario es obligatorio.';
       valido = false;
@@ -52,7 +58,7 @@ export class RegisterPage {
       valido = false;
     }
 
-    // Validar fecha de nacimiento
+    // Validación de la fecha de nacimiento
     if (!this.fechaNacimiento) {
       this.errores.fechaNacimiento = 'La fecha de nacimiento es obligatoria.';
       valido = false;
@@ -61,7 +67,7 @@ export class RegisterPage {
       valido = false;
     }
 
-    // Validar correo
+    // Validación del correo electrónico
     if (!this.correo) {
       this.errores.correo = 'El email es obligatorio.';
       valido = false;
@@ -70,7 +76,7 @@ export class RegisterPage {
       valido = false;
     }
 
-    // Validar contraseña
+    // Validación de la contraseña
     if (!this.contrasena) {
       this.errores.contrasena = 'La contraseña es obligatoria.';
       valido = false;
@@ -94,28 +100,13 @@ export class RegisterPage {
     return valido;
   }
 
-  // Validación solo para el formato del email
+  // Función para validar el formato del correo electrónico
   validarFormatoEmail(email: string): boolean {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailPattern.test(email);
   }
 
-  // Función para guardar el usuario en el almacenamiento
-  async guardarUsuario() {
-    const usuarios = (await this.storage.get('usuarios')) || {};
-    if (usuarios[this.usuario]) {
-      return false; // El usuario ya existe
-    }
-    usuarios[this.usuario] = {
-      contrasena: this.contrasena,
-      correo: this.correo,
-      fechaNacimiento: this.fechaNacimiento
-    };
-    await this.storage.set('usuarios', usuarios);
-    return true;
-  }
-
-  // Mostrar mensaje emergente
+  // Mostrar mensaje emergente (Toast)
   async mostrarToast(mensaje: string, color: string) {
     const toast = await this.toastController.create({
       message: mensaje,
@@ -125,7 +116,7 @@ export class RegisterPage {
     toast.present();
   }
 
-  // Limpiar los errores
+  // Función para limpiar los errores del formulario
   limpiarErrores() {
     this.errores = {
       usuario: '',
@@ -137,7 +128,7 @@ export class RegisterPage {
     this.error = '';
   }
 
-  // Funciones para manejar el cambio de valores y limpiar errores
+  // Estas funciones se utilizan para limpiar los errores individuales cuando el usuario cambia los valores
   onUsuarioChange() {
     this.errores.usuario = '';
   }
@@ -158,6 +149,7 @@ export class RegisterPage {
     this.errores.recontrasena = '';
   }
 
+  // Alternar la visibilidad de la contraseña
   toggleMostrarClave() {
     this.mostrarContrasena = !this.mostrarContrasena;
   }

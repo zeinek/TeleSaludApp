@@ -24,7 +24,7 @@ const routes: Routes = [
   {
     path: 'correo',
     loadChildren: () => import('./home/correo/correo.module').then(m => m.CorreoPageModule),
-    canActivate: [AuthGuard],  // Protegiendo la ruta
+    //canActivate: [AuthGuard],  // Protegiendo la ruta
   },
   {
     path: 'citas',
@@ -35,7 +35,7 @@ const routes: Routes = [
   {
     path: 'main',
     loadChildren: () => import('./main/main.module').then(m => m.MainPageModule),
-    canActivate: [AuthGuard], // Protegiendo la ruta
+    //canActivate: [AuthGuard], // Protegiendo la ruta
   },
 
     //{

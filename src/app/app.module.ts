@@ -18,7 +18,25 @@ import { CapacitorSQLite } from '@capacitor-community/sqlite';
   bootstrap: [AppComponent],
  
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    this.initializeSQLite();
+  }
+
+  async initializeSQLite() {
+    try {
+      await CapacitorSQLite.createConnection({
+        database: "teleSaludAppDb",
+        version: 1,
+        encrypted: false,
+        mode: "no-encryption"
+      });
+      console.log('SQLite initialized');
+    } catch (error) {
+      console.error('Error initializing SQLite:', error);
+    }
+  }
+}
 
 
 

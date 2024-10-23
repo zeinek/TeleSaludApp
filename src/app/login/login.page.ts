@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';  // Importamos NavigationExtras
 import { Storage } from '@ionic/storage-angular';
 
 @Component({
@@ -56,7 +56,17 @@ export class LoginPage {
       // Autenticación exitosa
       await this.storage.set('loggedInUser', this.username); // Guardar el usuario logueado en el storage
       this.showToast('Inicio de sesión exitoso');
-      this.router.navigate(['/main']); // Redirigir a la página principal
+      
+      // Crear NavigationExtras para pasar el nombre de usuario a la página "main"
+      const navigationExtras: NavigationExtras = {
+        state: {
+          username: this.username  // Pasar el nombre de usuario como parámetro
+        }
+      };
+
+      // Redirigir a la página "main" con los datos del usuario
+      this.router.navigate(['/main'], navigationExtras);
+
     } else {
       // Credenciales incorrectas
       this.showToast('Credenciales incorrectas.');
