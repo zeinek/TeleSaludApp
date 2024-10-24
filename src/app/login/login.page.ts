@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
-import { Router, NavigationExtras } from '@angular/router'; // Asegúrate de importar NavigationExtras
-import { AuthService } from 'src/app/services/auth-service.service'; // Asegúrate de que la ruta sea correcta
+import { Router, NavigationExtras } from '@angular/router';
+import { AuthService } from 'src/app/services/auth-service.service';
 import { Storage } from '@ionic/storage-angular';
 import { UserService } from '../services/user.service';
+import { Geolocation } from '@capacitor/geolocation';  // Importar Geolocation
 
 @Component({
   selector: 'app-login',
@@ -47,21 +48,39 @@ export class LoginPage {
     const isAuthenticated = await this.AuthService.authenticate(this.username, this.password);
 
     if (isAuthenticated) {
-      // Si la autenticación es exitosa, almacenar el nombre de usuario en Storage
+      // Guardar el nombre de usuario en Storage
       await this.storage.set('loggedInUser', this.username);
 
-      // Usar NavigationExtras para pasar el nombre de usuario a la página main
+      // Obtener la ubicación del usuario
+      this.getCurrentLocation();  // Llamar a la función de ubicación
+
       const navigationExtras: NavigationExtras = {
         state: {
           username: this.username
         }
       };
 
-      // Redirigir a la página main pasando el nombre de usuario
+      // Redirigir a la página main
       this.router.navigate(['/main'], navigationExtras);
     } else {
-      // Mostrar un mensaje de error si las credenciales son incorrectas
       this.showToast('Credenciales incorrectas');
+    }
+  }
+
+  async getCurrentLocation() {
+    try {
+      const coordinates = await Geolocation.getCurrentPosition();
+      console.log('Ubicación actual:', coordinates);  // Aquí puedes manejar la ubicación
+
+      // Si necesitas almacenar la ubicación o enviarla al servidor, hazlo aquí
+      const { latitude, longitude } = coordinates.coords;
+      console.log(`Latitud: ${latitude}, Longitud: ${longitude}`);
+
+      // Aquí puedes guardar las coordenadas en el almacenamiento o en la base de datos
+      await this.storage.set('userLocation', { latitude, longitude });
+    } catch (error) {
+      console.error('Error al obtener la ubicación:', error);
+      this.showToast('No se pudo obtener la ubicación');
     }
   }
 
