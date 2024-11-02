@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
-import { DatabaseService } from '../services/database.service'; // Importar el servicio
+import { DatabaseService } from '../services/database.service';
 
 @Component({
   selector: 'app-registro',
@@ -8,60 +8,80 @@ import { DatabaseService } from '../services/database.service'; // Importar el s
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage {
-  usuario: string = '';
-  contrasena: string = '';
-  contrasenaError: string = '';
-  recontrasena: string = '';
-  fechaNacimiento: string = '';
-  fechaError: string = '';
+  // Definición de los campos de usuario
+  rut: string = '';
+  nombreCompleto: string = '';
+  direccion: string = '';
+  telefono: string = '';
   email: string = '';
-  usuarioError: string = '';
+  fechaNacimiento: string = '';
+  contrasena: string = '';
+  recontrasena: string = '';
+
+  // Definición de variables para errores
+  rutError: string = '';
+  nombreCompletoError: string = '';
+  direccionError: string = '';
+  telefonoError: string = '';
   emailError: string = '';
+  fechaError: string = '';
+  contrasenaError: string = '';
   error: string = '';
+
+  // Control de visibilidad de las contraseñas
   mostrarContrasena: boolean = false;
+  mostrarRecontrasena: boolean = false;
 
   constructor(
     private navCtrl: NavController,
     private toastController: ToastController,
-    private dbService: DatabaseService // Inyectar el servicio
+    private dbService: DatabaseService
   ) {}
 
   async enviarRegistro() {
     // Limpiar mensajes de error al inicio
-    this.usuarioError = '';
-    this.fechaError = '';
+    this.rutError = '';
+    this.nombreCompletoError = '';
+    this.direccionError = '';
+    this.telefonoError = '';
     this.emailError = '';
+    this.fechaError = '';
     this.contrasenaError = '';
     this.error = '';
 
-    // Validación de usuario
-    if (!this.usuario) {
-      this.usuarioError = 'El usuario es obligatorio.';
-    } else if (!/^[a-zA-Z]+$/.test(this.usuario)) {
-      this.usuarioError = 'El usuario debe contener solo letras.';
-    } else {
-      this.usuarioError = '';
+    // Validaciones para cada campo
+    if (!this.rut) {
+      this.rutError = 'El RUT es obligatorio.';
+    } else if (!/^\d{1,8}-[kK\d]{1}$/.test(this.rut)) {
+      this.rutError = 'El RUT debe tener el formato correcto (ej: 12345678-9).';
     }
 
-    // Validación de fecha de nacimiento
-    if (!this.fechaNacimiento) {
-      this.fechaError = 'La fecha de nacimiento es obligatoria.';
-    } else if (!/^\d{4}-\d{2}-\d{2}$/.test(this.fechaNacimiento)) {
-      this.fechaError = 'La fecha de nacimiento debe tener el formato YYYY-MM-DD.';
-    } else {
-      this.fechaError = '';
+    if (!this.nombreCompleto) {
+      this.nombreCompletoError = 'El nombre completo es obligatorio.';
     }
 
-    // Validación de email
+    if (!this.direccion) {
+      this.direccionError = 'La dirección es obligatoria.';
+    }
+
+    if (!this.telefono) {
+      this.telefonoError = 'El teléfono es obligatorio.';
+    } else if (!/^\d{9,10}$/.test(this.telefono)) {
+      this.telefonoError = 'El teléfono debe tener entre 9 y 10 dígitos.';
+    }
+
     if (!this.email) {
       this.emailError = 'El email es obligatorio.';
     } else if (!this.validarFormatoEmail(this.email)) {
       this.emailError = 'El email debe tener un formato válido.';
-    } else {
-      this.emailError = '';
     }
 
-    // Validación de la contraseña
+    if (!this.fechaNacimiento) {
+      this.fechaError = 'La fecha de nacimiento es obligatoria.';
+    } else if (!/^\d{4}-\d{2}-\d{2}$/.test(this.fechaNacimiento)) {
+      this.fechaError = 'La fecha de nacimiento debe tener el formato YYYY-MM-DD.';
+    }
+
     if (!this.contrasena) {
       this.contrasenaError = 'La contraseña es obligatoria.';
     } else if (this.contrasena.length < 8) {
@@ -72,85 +92,76 @@ export class RegisterPage {
       this.contrasenaError = 'La contraseña debe contener al menos un número.';
     } else if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(this.contrasena)) {
       this.contrasenaError = 'La contraseña debe contener al menos un carácter especial.';
-    } else {
-      this.contrasenaError = '';
     }
 
-    if (!this.usuario || !this.fechaNacimiento || !this.email || !this.contrasena || !this.recontrasena) {
-      this.error = 'Todos los campos son obligatorios.';
-    } else if (this.contrasena !== this.recontrasena) {
+    if (this.contrasena !== this.recontrasena) {
       this.error = 'Las contraseñas no coinciden.';
+    }
+
+    if (
+      !this.rut ||
+      !this.nombreCompleto ||
+      !this.direccion ||
+      !this.telefono ||
+      !this.email ||
+      !this.fechaNacimiento ||
+      !this.contrasena ||
+      !this.recontrasena
+    ) {
+      this.error = 'Todos los campos son obligatorios.';
+    }
+
+    if (this.error || this.rutError || this.nombreCompletoError || this.direccionError || this.telefonoError || this.emailError || this.fechaError || this.contrasenaError) {
+      return;
+    }
+
+    const userExists = await this.dbService.checkUserExists(this.rut);
+    if (userExists) {
+      this.rutError = 'El usuario ya existe.';
+      return;
+    }
+
+    // Llamar a addUser con los parámetros individuales
+    const usuarioGuardado = await this.dbService.addUser(
+      this.rut,
+      this.nombreCompleto,
+      this.direccion,
+      this.telefono,
+      this.email,
+      this.fechaNacimiento,
+      this.contrasena
+    );
+
+    if (usuarioGuardado) {
+      const toast = await this.toastController.create({
+        message: 'Registro exitoso',
+        duration: 2000,
+        color: 'success',
+      });
+      toast.present();
+      this.mostrarUsuariosGuardados();
+      this.navCtrl.navigateForward('/login');
     } else {
-      this.error = ''; // Limpiar el mensaje de error
-
-      // Validar si el usuario ya existe en la base de datos
-      const userExists = await this.dbService.checkUserExists(this.usuario);
-      if (userExists) {
-        this.usuarioError = 'El usuario ya existe.';
-        return;
-      }
-
-      // Intentar guardar el usuario en la base de datos
-      const usuarioGuardado = await this.dbService.addUser(
-        this.usuario,
-        this.contrasena,
-        this.email,
-        this.fechaNacimiento
-      );
-
-      if (usuarioGuardado) {
-        // Mostrar mensaje de éxito y redirigir
-        const toast = await this.toastController.create({
-          message: 'Registro exitoso',
-          duration: 2000,
-          color: 'success',
-        });
-        toast.present();
-        this.mostrarUsuariosGuardados(); // Llamar a la función para mostrar usuarios en la consola
-        this.navCtrl.navigateForward('/login');
-      } else {
-        this.error = 'Error al registrar usuario.';
-      }
+      this.error = 'Error al registrar usuario.';
     }
   }
 
-  // Método para mostrar usuarios guardados en la base de datos
   async mostrarUsuariosGuardados() {
     const usuarios = await this.dbService.getAllUsers();
     console.log('Usuarios guardados en la base de datos:', usuarios);
   }
 
-  // Validación solo para el formato del email
   validarFormatoEmail(email: string): boolean {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailPattern.test(email);
   }
 
-  // Limpiar mensajes de error cuando cambia el valor de los campos
-  onUsuarioChange() {
-    this.usuarioError = '';
-  }
-
-  onFechaNacimientoChange() {
-    this.fechaError = '';
-  }
-
-  onEmailChange() {
-    this.emailError = '';
-  }
-
-  onContrasenaChange() {
-    this.contrasenaError = '';
-  }
-
+  // Funciones para mostrar/ocultar contraseñas
   toggleMostrarClave() {
     this.mostrarContrasena = !this.mostrarContrasena;
   }
 
-  onRepetirClaveChange() {
-    this.error = '';
+  toggleMostrarReclave() {
+    this.mostrarRecontrasena = !this.mostrarRecontrasena;
   }
-
-  ngOnInit() {}
 }
-

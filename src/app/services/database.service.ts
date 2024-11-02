@@ -5,7 +5,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
   providedIn: 'root'
 })
 export class DatabaseService {
-  private dbInstance: SQLiteObject | null = null; // Cambiar undefined a null
+  private dbInstance: SQLiteObject | null = null;
   readonly dbName: string = 'app_db';
   readonly userTable: string = 'usuarios';
 
@@ -25,7 +25,7 @@ export class DatabaseService {
     }
   }
 
-  async createTables() {
+  async createTables(): Promise<void> {
     if (!this.dbInstance) {
       console.error('Database not initialized!');
       return;
@@ -33,10 +33,13 @@ export class DatabaseService {
     const sql = `
       CREATE TABLE IF NOT EXISTS ${this.userTable} (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        usuario TEXT UNIQUE,
-        contrasena TEXT,
-        correo TEXT,
-        fechaNacimiento TEXT
+        rut TEXT UNIQUE,
+        nombreCompleto TEXT,
+        direccion TEXT,
+        telefono TEXT,
+        email TEXT,
+        fechaNacimiento TEXT,
+        contrasena TEXT
       )`;
     try {
       await this.dbInstance.executeSql(sql, []);
@@ -45,13 +48,29 @@ export class DatabaseService {
     }
   }
 
-  async addUser(usuario: string, contrasena: string, correo: string, fechaNacimiento: string): Promise<boolean> {
+  async addUser(
+    rut: string,
+    nombreCompleto: string,
+    direccion: string,
+    telefono: string,
+    email: string,
+    fechaNacimiento: string,
+    contrasena: string
+  ): Promise<boolean> {
     if (!this.dbInstance) {
       console.error('Database not initialized!');
       return false;
     }
-    const sql = `INSERT INTO ${this.userTable} (usuario, contrasena, correo, fechaNacimiento) VALUES (?, ?, ?, ?)`;
-    const data = [usuario, contrasena, correo, fechaNacimiento];
+    const sql = `INSERT INTO ${this.userTable} (rut, nombreCompleto, direccion, telefono, email, fechaNacimiento, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    const data = [
+      rut,
+      nombreCompleto,
+      direccion,
+      telefono,
+      email,
+      fechaNacimiento,
+      contrasena
+    ];
     try {
       await this.dbInstance.executeSql(sql, data);
       return true;
@@ -61,9 +80,6 @@ export class DatabaseService {
     }
   }
 
-
-//funcion para ver los usuarios almacenados en la base de datos, agregaremos la función getAllUsers a DatabaseService. 
-//Esto permitirá obtener todos los registros y así verificar en la consola qué usuarios están almacenados.
   async getAllUsers(): Promise<any[]> {
     if (!this.dbInstance) {
       console.error('Database not initialized!');
@@ -83,18 +99,18 @@ export class DatabaseService {
     }
   }
 
-
-
-  async checkUserExists(usuario: string): Promise<boolean> {
+  async checkUserExists(rut: string): Promise<boolean> {
     if (!this.dbInstance) {
       console.error('Database not initialized!');
       return false;
     }
-    const sql = `SELECT * FROM ${this.userTable} WHERE usuario = ?`;
-    const res = await this.dbInstance.executeSql(sql, [usuario]);
-    return res.rows.length > 0;
+    const sql = `SELECT * FROM ${this.userTable} WHERE rut = ?`;
+    try {
+      const res = await this.dbInstance.executeSql(sql, [rut]);
+      return res.rows.length > 0;
+    } catch (error) {
+      console.error('Error al verificar si el usuario existe:', error);
+      return false;
+    }
   }
 }
-
-
-
