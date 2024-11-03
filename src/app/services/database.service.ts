@@ -39,7 +39,8 @@ export class DatabaseService {
         telefono TEXT,
         email TEXT,
         fechaNacimiento TEXT,
-        contrasena TEXT
+        contrasena TEXT,
+        activo INTEGER DEFAULT 1 
       )`;
     try {
       await this.dbInstance.executeSql(sql, []);
@@ -47,6 +48,54 @@ export class DatabaseService {
       console.error('Error al crear la tabla de usuarios:', error);
     }
   }
+
+  // Desactivar un usuario (baja)
+async deactivateUser(rut: string): Promise<boolean> {
+  if (!this.dbInstance) {
+    console.error('Database not initialized!');
+    return false;
+  }
+  const sql = `UPDATE ${this.userTable} SET activo = 0 WHERE rut = ?`;
+  try {
+    await this.dbInstance.executeSql(sql, [rut]);
+    return true;
+  } catch (error) {
+    console.error('Error al dar de baja al usuario:', error);
+    return false;
+  }
+}
+
+// Activar un usuario
+async activateUser(rut: string): Promise<boolean> {
+  if (!this.dbInstance) {
+    console.error('Database not initialized!');
+    return false;
+  }
+  const sql = `UPDATE ${this.userTable} SET activo = 1 WHERE rut = ?`;
+  try {
+    await this.dbInstance.executeSql(sql, [rut]);
+    return true;
+  } catch (error) {
+    console.error('Error al activar el usuario:', error);
+    return false;
+  }
+}
+
+// Eliminar un usuario permanentemente
+async deleteUser(rut: string): Promise<boolean> {
+  if (!this.dbInstance) {
+    console.error('Database not initialized!');
+    return false;
+  }
+  const sql = `DELETE FROM ${this.userTable} WHERE rut = ?`;
+  try {
+    await this.dbInstance.executeSql(sql, [rut]);
+    return true;
+  } catch (error) {
+    console.error('Error al eliminar el usuario:', error);
+    return false;
+  }
+}
 
   async addUser(
     rut: string,
@@ -62,15 +111,7 @@ export class DatabaseService {
       return false;
     }
     const sql = `INSERT INTO ${this.userTable} (rut, nombreCompleto, direccion, telefono, email, fechaNacimiento, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    const data = [
-      rut,
-      nombreCompleto,
-      direccion,
-      telefono,
-      email,
-      fechaNacimiento,
-      contrasena
-    ];
+    const data = [rut, nombreCompleto, direccion, telefono, email, fechaNacimiento, contrasena];
     try {
       await this.dbInstance.executeSql(sql, data);
       return true;
@@ -111,6 +152,24 @@ export class DatabaseService {
     } catch (error) {
       console.error('Error al verificar si el usuario existe:', error);
       return false;
+    }
+  }
+
+  async getUserByRut(rut: string): Promise<any | null> {
+    if (!this.dbInstance) {
+      console.error('Database not initialized!');
+      return null;
+    }
+    const sql = `SELECT * FROM ${this.userTable} WHERE rut = ?`;
+    try {
+      const res = await this.dbInstance.executeSql(sql, [rut]);
+      if (res.rows.length > 0) {
+        return res.rows.item(0); // Retorna el usuario si existe
+      }
+      return null; // No encontró el usuario
+    } catch (error) {
+      console.error('Error al obtener usuario por RUT:', error);
+      return null;
     }
   }
 }

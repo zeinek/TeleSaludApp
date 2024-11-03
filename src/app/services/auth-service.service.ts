@@ -1,80 +1,56 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
+import { DatabaseService } from './database.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private isAuthenticated = false;
-  public isAdmin = false; // Propiedad para controlar si el usuario es administrador
+  public isAdmin = false;
 
-  constructor(private router: Router,private storage: Storage) {
-    
-  }
+  constructor(
+    private router: Router,
+    private storage: Storage,
+    private dbService: DatabaseService // Inyección del servicio de base de datos
+  ) {}
 
-
-
-
-  // async authenticate(username: string, password: string): Promise<boolean> {
-  //   await this.storage.create(); // Asegúrate de inicializar el storage
-
-  //   const users = await this.storage.get('users') as any[] || [];
-  //   const user = users.find(u => u.username === username && u.password === password);
-
-  //   return user !== undefined;
-  // }
-
-  // async authenticate(username: string, password: string): Promise<boolean> {
-  //   await this.storage.create();
-  //   const users = await this.storage.get('usuarios') as {[key: string]: any} || {};
-  //   const user = users[username];
-  //   return user && user.contrasena === password;
-
-    
-  // }
-
-  async authenticate(username: string, password: string): Promise<boolean> {
+  async authenticate(rut: string, password: string): Promise<boolean> {
     await this.storage.create();
-  
-    // Verificación del usuario ADMIN
-    if (username === 'ADMIN' && password === '#Kevinperedo00') {
+
+    // Verificación del usuario ADMIN usando un RUT y contraseña específicos en Storage
+    if (rut === '1234-5' && password === 'Admin1234#') {
       this.isAdmin = true;
-      this.isAuthenticated = true; // Asumiendo que tienes esta propiedad para controlar la autenticación
+      this.isAuthenticated = true;
       return true;
     }
-  
-    // Verificación para otros usuarios
-    const users = await this.storage.get('usuarios') as {[key: string]: any} || {};
-    const user = users[username];
-  
-    if (user && user.contrasena === password) {
-      this.isAuthenticated = true; // Establecer que el usuario está autenticado
-      this.isAdmin = false; // Asegurarse de que no es el usuario ADMIN
-      return true;
+
+    // Verificación para otros usuarios almacenados en SQLite
+    const users = await this.storage.get('usuarios') as { [key: string]: any } || {};
+    const user = users[rut];
+
+    if (user && user.contrasena === password && user.activo === 1) {
+    this.isAuthenticated = true;
+    this.isAdmin = false;
+    return true;
     } else {
-      this.isAuthenticated = false; // El usuario no está autenticado
+      this.isAuthenticated = false;
       return false;
     }
-  }
-  
+}
 
-  
-
-
-  // Método para iniciar sesión
+  // Método para iniciar sesión (si deseas activarlo manualmente en otros contextos)
   login() {
     this.isAuthenticated = true;
     this.isAdmin = true;
-    // ... cualquier otra lógica de inicio de sesión
   }
 
   // Método para cerrar sesión
   logout() {
     this.isAuthenticated = false;
     this.isAdmin = false;
-    // ... cualquier otra lógica de cierre de sesión
+    this.router.navigate(['/login']); // Redirigir a la página de inicio de sesión
   }
 
   // Método para verificar si el usuario está autenticado
@@ -82,4 +58,3 @@ export class AuthService {
     return this.isAuthenticated;
   }
 }
-

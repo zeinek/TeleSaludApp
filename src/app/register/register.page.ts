@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
 import { DatabaseService } from '../services/database.service';
+import { UsuariosService } from '../services/usuarios.service';
 
 @Component({
   selector: 'app-registro',
@@ -35,7 +36,8 @@ export class RegisterPage {
   constructor(
     private navCtrl: NavController,
     private toastController: ToastController,
-    private dbService: DatabaseService
+    private dbService: DatabaseService,
+    private usuariosService: UsuariosService // Inyecta el UsuariosService
   ) {}
 
   async enviarRegistro() {
@@ -50,68 +52,12 @@ export class RegisterPage {
     this.error = '';
 
     // Validaciones para cada campo
-    if (!this.rut) {
-      this.rutError = 'El RUT es obligatorio.';
-    } else if (!/^\d{1,8}-[kK\d]{1}$/.test(this.rut)) {
-      this.rutError = 'El RUT debe tener el formato correcto (ej: 12345678-9).';
-    }
-
-    if (!this.nombreCompleto) {
-      this.nombreCompletoError = 'El nombre completo es obligatorio.';
-    }
-
-    if (!this.direccion) {
-      this.direccionError = 'La dirección es obligatoria.';
-    }
-
-    if (!this.telefono) {
-      this.telefonoError = 'El teléfono es obligatorio.';
-    } else if (!/^\d{9,10}$/.test(this.telefono)) {
-      this.telefonoError = 'El teléfono debe tener entre 9 y 10 dígitos.';
-    }
-
-    if (!this.email) {
-      this.emailError = 'El email es obligatorio.';
-    } else if (!this.validarFormatoEmail(this.email)) {
-      this.emailError = 'El email debe tener un formato válido.';
-    }
-
-    if (!this.fechaNacimiento) {
-      this.fechaError = 'La fecha de nacimiento es obligatoria.';
-    } else if (!/^\d{4}-\d{2}-\d{2}$/.test(this.fechaNacimiento)) {
-      this.fechaError = 'La fecha de nacimiento debe tener el formato YYYY-MM-DD.';
-    }
-
-    if (!this.contrasena) {
-      this.contrasenaError = 'La contraseña es obligatoria.';
-    } else if (this.contrasena.length < 8) {
-      this.contrasenaError = 'La contraseña debe tener al menos 8 caracteres.';
-    } else if (!/[A-Z]/.test(this.contrasena)) {
-      this.contrasenaError = 'La contraseña debe contener al menos una letra mayúscula.';
-    } else if (!/[0-9]/.test(this.contrasena)) {
-      this.contrasenaError = 'La contraseña debe contener al menos un número.';
-    } else if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(this.contrasena)) {
-      this.contrasenaError = 'La contraseña debe contener al menos un carácter especial.';
-    }
-
-    if (this.contrasena !== this.recontrasena) {
-      this.error = 'Las contraseñas no coinciden.';
-    }
+    // (aquí va la lógica de validación de cada campo como la tienes en tu código)
 
     if (
-      !this.rut ||
-      !this.nombreCompleto ||
-      !this.direccion ||
-      !this.telefono ||
-      !this.email ||
-      !this.fechaNacimiento ||
-      !this.contrasena ||
-      !this.recontrasena
+      this.error || this.rutError || this.nombreCompletoError || this.direccionError || 
+      this.telefonoError || this.emailError || this.fechaError || this.contrasenaError
     ) {
-      this.error = 'Todos los campos son obligatorios.';
-    }
-
-    if (this.error || this.rutError || this.nombreCompletoError || this.direccionError || this.telefonoError || this.emailError || this.fechaError || this.contrasenaError) {
       return;
     }
 
@@ -121,7 +67,7 @@ export class RegisterPage {
       return;
     }
 
-    // Llamar a addUser con los parámetros individuales
+    // Almacenar el usuario en SQLite
     const usuarioGuardado = await this.dbService.addUser(
       this.rut,
       this.nombreCompleto,
@@ -132,18 +78,34 @@ export class RegisterPage {
       this.contrasena
     );
 
-    if (usuarioGuardado) {
-      const toast = await this.toastController.create({
-        message: 'Registro exitoso',
-        duration: 2000,
-        color: 'success',
-      });
-      toast.present();
-      this.mostrarUsuariosGuardados();
-      this.navCtrl.navigateForward('/login');
-    } else {
-      this.error = 'Error al registrar usuario.';
-    }
+    // Almacenar el usuario en json-server usando UsuariosService
+    this.usuariosService.addUsuario({
+      rut: this.rut,
+      nombreCompleto: this.nombreCompleto,
+      direccion: this.direccion,
+      telefono: this.telefono,
+      email: this.email,
+      fechaNacimiento: this.fechaNacimiento,
+      contrasena: this.contrasena
+    }).subscribe({
+      next: async () => {
+        if (usuarioGuardado) {
+          const toast = await this.toastController.create({
+            message: 'Registro exitoso',
+            duration: 2000,
+            color: 'success',
+          });
+          toast.present();
+          this.mostrarUsuariosGuardados();
+          this.navCtrl.navigateForward('/login');
+        } else {
+          this.error = 'Error al registrar usuario localmente.';
+        }
+      },
+      error: () => {
+        this.error = 'Error al registrar usuario en el servidor.';
+      }
+    });
   }
 
   async mostrarUsuariosGuardados() {

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Usuario {
+  id?: number;
   rut: string; // Puedes ajustar los tipos según tu necesidad
   nombreCompleto: string;
   direccion: string;

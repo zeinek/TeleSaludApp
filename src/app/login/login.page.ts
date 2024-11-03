@@ -4,7 +4,7 @@ import { Router, NavigationExtras } from '@angular/router';
 import { AuthService } from 'src/app/services/auth-service.service';
 import { Storage } from '@ionic/storage-angular';
 import { UserService } from '../services/user.service';
-import { Geolocation } from '@capacitor/geolocation';  // Importar Geolocation
+import { Geolocation } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +13,7 @@ import { Geolocation } from '@capacitor/geolocation';  // Importar Geolocation
 })
 export class LoginPage {
   errorMessages: string[] = [];
-  username: string = '';
+  rut: string = ''; // Cambiado de username a rut
   password: string = '';
   usernameErrorL: string = '';
   passwordErrorL: string = '';
@@ -29,10 +29,10 @@ export class LoginPage {
 
   async login() {
     const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*]).{8,}$/;
-    const usernamePattern = /^[a-zA-Z]+$/;
+    const rutPattern = /^[0-9]+-[0-9kK]{1}$/; // Patrón para validar formato de RUT
 
-    if (this.username.length < 3 || this.username.length > 8 || !usernamePattern.test(this.username)) {
-      this.usernameErrorL = 'El nombre de usuario debe tener entre 3 y 8 caracteres y solo puede contener letras.';
+    if (!rutPattern.test(this.rut)) { // Validación de RUT
+      this.usernameErrorL = 'El RUT no es válido. Formato esperado: 12345678-9';
       return;
     } else {
       this.usernameErrorL = '';
@@ -45,22 +45,19 @@ export class LoginPage {
       this.passwordErrorL = '';
     }
 
-    const isAuthenticated = await this.AuthService.authenticate(this.username, this.password);
+    const isAuthenticated = await this.AuthService.authenticate(this.rut, this.password);
 
     if (isAuthenticated) {
-      // Guardar el nombre de usuario en Storage
-      await this.storage.set('loggedInUser', this.username);
+      await this.storage.set('loggedInUser', this.rut);
 
-      // Obtener la ubicación del usuario
-      this.getCurrentLocation();  // Llamar a la función de ubicación
+      this.getCurrentLocation();
 
       const navigationExtras: NavigationExtras = {
         state: {
-          username: this.username
+          rut: this.rut
         }
       };
 
-      // Redirigir a la página main
       this.router.navigate(['/main'], navigationExtras);
     } else {
       this.showToast('Credenciales incorrectas');
@@ -70,13 +67,11 @@ export class LoginPage {
   async getCurrentLocation() {
     try {
       const coordinates = await Geolocation.getCurrentPosition();
-      console.log('Ubicación actual:', coordinates);  // Aquí puedes manejar la ubicación
+      console.log('Ubicación actual:', coordinates);
 
-      // Si necesitas almacenar la ubicación o enviarla al servidor, hazlo aquí
       const { latitude, longitude } = coordinates.coords;
       console.log(`Latitud: ${latitude}, Longitud: ${longitude}`);
 
-      // Aquí puedes guardar las coordenadas en el almacenamiento o en la base de datos
       await this.storage.set('userLocation', { latitude, longitude });
     } catch (error) {
       console.error('Error al obtener la ubicación:', error);

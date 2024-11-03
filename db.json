@@ -13,5 +13,26 @@
       "hora": "07:15"
     }
   ],
-  "usuarios": []
+  "usuarios": [
+    {
+      "id": "bdce",
+      "rut": "17108861-5",
+      "nombreCompleto": "Samuel Solis",
+      "direccion": "Ramon Freire 759 Huechuraba",
+      "telefono": "956360270",
+      "email": "solis@gmail.com",
+      "fechaNacimiento": "1988-10-04",
+      "contrasena": "Sbiy42028#"
+    },
+    {
+      "id": "6824",
+      "rut": "17108861-5",
+      "nombreCompleto": "Samuel Solis",
+      "direccion": "Ramon Freire 759 Huechuraba",
+      "telefono": "956360270",
+      "email": "solis@gmail.com",
+      "fechaNacimiento": "1988-10-04",
+      "contrasena": "Sbi42028#"
+    }
+  ]
 }
