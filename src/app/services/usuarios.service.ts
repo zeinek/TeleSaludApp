@@ -11,6 +11,7 @@ export interface Usuario {
   email: string;
   fechaNacimiento: string;
   contrasena: string;
+  activo:number;
 }
 
 @Injectable({

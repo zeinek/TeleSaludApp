@@ -15,6 +15,7 @@ export class DatabaseService {
 
   async initializeDatabase(): Promise<void> {
     try {
+      console.log('Inicializando la base de datos...');
       this.dbInstance = await this.sqlite.create({
         name: this.dbName,
         location: 'default'
@@ -43,6 +44,7 @@ export class DatabaseService {
         activo INTEGER DEFAULT 1 
       )`;
     try {
+      console.log('Creando la tabla de usuarios...');
       await this.dbInstance.executeSql(sql, []);
     } catch (error) {
       console.error('Error al crear la tabla de usuarios:', error);
@@ -50,52 +52,52 @@ export class DatabaseService {
   }
 
   // Desactivar un usuario (baja)
-async deactivateUser(rut: string): Promise<boolean> {
-  if (!this.dbInstance) {
-    console.error('Database not initialized!');
-    return false;
+  async deactivateUser(rut: string): Promise<boolean> {
+    if (!this.dbInstance) {
+      console.error('Database not initialized!');
+      return false;
+    }
+    const sql = `UPDATE ${this.userTable} SET activo = 0 WHERE rut = ?`;
+    try {
+      await this.dbInstance.executeSql(sql, [rut]);
+      return true;
+    } catch (error) {
+      console.error('Error al dar de baja al usuario:', error);
+      return false;
+    }
   }
-  const sql = `UPDATE ${this.userTable} SET activo = 0 WHERE rut = ?`;
-  try {
-    await this.dbInstance.executeSql(sql, [rut]);
-    return true;
-  } catch (error) {
-    console.error('Error al dar de baja al usuario:', error);
-    return false;
-  }
-}
 
-// Activar un usuario
-async activateUser(rut: string): Promise<boolean> {
-  if (!this.dbInstance) {
-    console.error('Database not initialized!');
-    return false;
+  // Activar un usuario
+  async activateUser(rut: string): Promise<boolean> {
+    if (!this.dbInstance) {
+      console.error('Database not initialized!');
+      return false;
+    }
+    const sql = `UPDATE ${this.userTable} SET activo = 1 WHERE rut = ?`;
+    try {
+      await this.dbInstance.executeSql(sql, [rut]);
+      return true;
+    } catch (error) {
+      console.error('Error al activar el usuario:', error);
+      return false;
+    }
   }
-  const sql = `UPDATE ${this.userTable} SET activo = 1 WHERE rut = ?`;
-  try {
-    await this.dbInstance.executeSql(sql, [rut]);
-    return true;
-  } catch (error) {
-    console.error('Error al activar el usuario:', error);
-    return false;
-  }
-}
 
-// Eliminar un usuario permanentemente
-async deleteUser(rut: string): Promise<boolean> {
-  if (!this.dbInstance) {
-    console.error('Database not initialized!');
-    return false;
+  // Eliminar un usuario permanentemente
+  async deleteUser(rut: string): Promise<boolean> {
+    if (!this.dbInstance) {
+      console.error('Database not initialized!');
+      return false;
+    }
+    const sql = `DELETE FROM ${this.userTable} WHERE rut = ?`;
+    try {
+      await this.dbInstance.executeSql(sql, [rut]);
+      return true;
+    } catch (error) {
+      console.error('Error al eliminar el usuario:', error);
+      return false;
+    }
   }
-  const sql = `DELETE FROM ${this.userTable} WHERE rut = ?`;
-  try {
-    await this.dbInstance.executeSql(sql, [rut]);
-    return true;
-  } catch (error) {
-    console.error('Error al eliminar el usuario:', error);
-    return false;
-  }
-}
 
   async addUser(
     rut: string,
@@ -110,10 +112,12 @@ async deleteUser(rut: string): Promise<boolean> {
       console.error('Database not initialized!');
       return false;
     }
-    const sql = `INSERT INTO ${this.userTable} (rut, nombreCompleto, direccion, telefono, email, fechaNacimiento, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    const data = [rut, nombreCompleto, direccion, telefono, email, fechaNacimiento, contrasena];
+    const sql = `INSERT INTO ${this.userTable} (rut, nombreCompleto, direccion, telefono, email, fechaNacimiento, contrasena, activo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    const data = [rut, nombreCompleto, direccion, telefono, email, fechaNacimiento, contrasena, 1]; // Añadir activo por defecto
     try {
+      console.log('Añadiendo usuario:', data);
       await this.dbInstance.executeSql(sql, data);
+      console.log('Usuario añadido exitosamente');
       return true;
     } catch (error) {
       console.error('Error al agregar usuario:', error);

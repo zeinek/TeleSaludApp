@@ -1,20 +1,12 @@
 <ion-content class="ion-padding">
   <ion-list>
-    <ion-item *ngFor="let user of usuarios">
-      <ion-label>
-        <h2>{{ user.nombreCompleto }} ({{ user.rut }})</h2>
-        <p>Email: {{ user.email }}</p>
-        <p>Estado: {{ user.activo === 1 ? 'Activo' : 'Inactivo' }}</p>
-      </ion-label>
-      <ion-button color="danger" (click)="deactivateUser(user.rut)" *ngIf="user.activo === 1">
-        Dar de baja
-      </ion-button>
-      <ion-button color="success" (click)="activateUser(user.rut)" *ngIf="user.activo === 0">
-        Reactivar
-      </ion-button>
-      <ion-button color="danger" (click)="deleteUser(user.rut)">
-        Eliminar
-      </ion-button>
-    </ion-item>
+    <ion-button>INGRESARE</ion-button>
+    <ion-button>EXIT</ion-button>
+    <ion-button color="tertiary">Dar baja</ion-button>
+    <ion-button color="danger">Eliminar</ion-button>
+    <ion-button color="success" >HELLO</ion-button>
+  
   </ion-list>
+  
+   
 </ion-content>

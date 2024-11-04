@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseService } from '../services/database.service';
+import { UsuariosService, Usuario } from '../services/usuarios.service';
 
 @Component({
   selector: 'app-admin',
@@ -7,30 +7,43 @@ import { DatabaseService } from '../services/database.service';
   styleUrls: ['./admin-page.page.scss'],
 })
 export class AdminPage implements OnInit {
-  usuarios: any[] = [];
+  usuarios: Usuario[] = [];
 
-  constructor(private databaseService: DatabaseService) {}
+  constructor(private usuariosService: UsuariosService) {}
 
-  async ngOnInit() {
-    await this.loadUsuarios();
+  ngOnInit() {
+    this.loadUsuarios();
   }
 
-  async loadUsuarios() {
-    this.usuarios = await this.databaseService.getAllUsers();
+  loadUsuarios() {
+    this.usuariosService.getUsuarios().subscribe(data => {
+      this.usuarios = data;
+    });
   }
 
-  async deactivateUser(rut: string) {
-    await this.databaseService.deactivateUser(rut);
-    await this.loadUsuarios();
+  deactivateUser(rut: string) {
+    const usuario = this.usuarios.find(u => u.rut === rut);
+    if (usuario) {
+      usuario.activo = 0;
+      this.usuariosService.updateUsuario(rut, usuario).subscribe(() => {
+        this.loadUsuarios(); // Recargar la lista de usuarios después de actualizar
+      });
+    }
   }
 
-  async activateUser(rut: string) {
-    await this.databaseService.activateUser(rut);
-    await this.loadUsuarios();
+  activateUser(rut: string) {
+    const usuario = this.usuarios.find(u => u.rut === rut);
+    if (usuario) {
+      usuario.activo = 1;
+      this.usuariosService.updateUsuario(rut, usuario).subscribe(() => {
+        this.loadUsuarios(); // Recargar la lista de usuarios después de actualizar
+      });
+    }
   }
 
-  async deleteUser(rut: string) {
-    await this.databaseService.deleteUser(rut);
-    await this.loadUsuarios();
+  deleteUser(rut: string) {
+    this.usuariosService.deleteUsuario(rut).subscribe(() => {
+      this.loadUsuarios(); // Recargar la lista de usuarios después de eliminar
+    });
   }
 }

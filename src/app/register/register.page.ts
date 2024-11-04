@@ -78,6 +78,12 @@ export class RegisterPage {
       this.contrasena
     );
 
+    if (!usuarioGuardado) {
+      this.error = 'Error al registrar usuario localmente.';
+      console.error('Error al registrar usuario localmente.');
+      return;
+    }
+
     // Almacenar el usuario en json-server usando UsuariosService
     this.usuariosService.addUsuario({
       rut: this.rut,
@@ -86,24 +92,22 @@ export class RegisterPage {
       telefono: this.telefono,
       email: this.email,
       fechaNacimiento: this.fechaNacimiento,
-      contrasena: this.contrasena
+      contrasena: this.contrasena,
+      activo: 1 // Añadir la propiedad activo con valor predeterminado
     }).subscribe({
       next: async () => {
-        if (usuarioGuardado) {
-          const toast = await this.toastController.create({
-            message: 'Registro exitoso',
-            duration: 2000,
-            color: 'success',
-          });
-          toast.present();
-          this.mostrarUsuariosGuardados();
-          this.navCtrl.navigateForward('/login');
-        } else {
-          this.error = 'Error al registrar usuario localmente.';
-        }
+        const toast = await this.toastController.create({
+          message: 'Registro exitoso',
+          duration: 2000,
+          color: 'success',
+        });
+        toast.present();
+        this.mostrarUsuariosGuardados();
+        this.navCtrl.navigateForward('/login');
       },
-      error: () => {
+      error: (err) => {
         this.error = 'Error al registrar usuario en el servidor.';
+        console.error('Error al registrar usuario en el servidor:', err);
       }
     });
   }
