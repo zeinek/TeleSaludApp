@@ -2,7 +2,6 @@
   <ion-menu contentId="main-content">
     <ion-header>
       <ion-toolbar>
-        <!-- Mostrar el mensaje de bienvenida con el nombre de usuario después de "Bienvenidos" -->
         <ion-label>Bienvenido TeleSalud, {{ username }}</ion-label>
       </ion-toolbar>
     </ion-header>
@@ -15,7 +14,7 @@
             <ion-badge color="danger">13</ion-badge>
           </ion-item>
         </ion-item>
-        <ion-item routerLink="/proximamente">
+        <ion-item routerLink="/profile">
           <ion-icon name="person" slot="start"></ion-icon>
           <ion-label>Mi Perfil</ion-label>
         </ion-item>
@@ -30,10 +29,6 @@
         <ion-item routerLink="/proximamente">
           <ion-icon name="settings" slot="start"></ion-icon>
           <ion-label>Configuración</ion-label>
-        </ion-item>
-        <ion-item routerLink="/proximamente">
-          <ion-icon name="lock-closed" slot="start"></ion-icon>
-          <ion-label>Política de Privacidad</ion-label>
         </ion-item>
         <ion-item routerLink="/home">
           <ion-icon name="log-out" slot="start"></ion-icon>
@@ -60,5 +55,16 @@
       <h1>Tu CESFAM más cerca de ti</h1>
       <p>Aquí podrás solicitar atenciones presenciales o remotas de profesionales de tu CESFAM</p>
     </div>
+      <div class="ion-padding" style="margin-top: 50px; text-align: auto;">
+        <img src="https://telesalud.gob.cl/assets/foto2.ae782cc9.jpg" alt="TeleSalud">
+        <h1>¿Qué hace TeleSalud?</h1>
+        <p>Mejora la Atención Primaria de Salud (APS), a través de una nueva forma de contacto entre pacientes y sus CESFAM.
+        <br>
+        <br>
+          Optimiza y prioriza las solicitudes para entregarte atenciones de salud de manera oportuna.
+        <br>
+        <br>
+        Todas las solicitudes de atención serán evaluadas por el equipo de salud del centro, quienes determinarán el tiempo en que se emitirá una respuesta según las condiciones de caso.</p>
+      </div>
   </ion-content>
 </ion-app>
