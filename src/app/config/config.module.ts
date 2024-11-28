@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AgendarcitaPageRoutingModule } from './agendarcita-routing.module';
+import { ConfigPageRoutingModule } from './config-routing.module';
 
-import { AgendarcitaPage } from './agendarcita.page';
+import { ConfigPage } from './config.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AgendarcitaPageRoutingModule
+    ConfigPageRoutingModule
   ],
-  declarations: [AgendarcitaPage]
+  declarations: [ConfigPage]
 })
-export class AgendarcitaPageModule {}
+export class ConfigPageModule {}

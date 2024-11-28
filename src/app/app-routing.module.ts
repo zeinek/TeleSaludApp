@@ -24,24 +24,29 @@ const routes: Routes = [
   {
     path: 'correo',
     loadChildren: () => import('./home/correo/correo.module').then(m => m.CorreoPageModule),
-    canActivate: [AuthGuard],  // Protegiendo la ruta
   },
   {
     path: 'citas',
     loadChildren: () => import('./citas/citas.module').then(m => m.CitasPageModule),
-    canActivate: [AuthGuard],  // Protegiendo la ruta
   },
 
   {
     path: 'main',
     loadChildren: () => import('./main/main.module').then(m => m.MainPageModule),
-    canActivate: [AuthGuard], // Protegiendo la ruta
   },
 
   { 
     path: 'mi-perfil', 
     loadChildren: () => import('./mi-perfil/mi-perfil.module').then( m => m.MiPerfilPageModule)
+  },  {
+    path: 'idioma',
+    loadChildren: () => import('./idioma/idioma.module').then( m => m.IdiomaPageModule)
   },
+  {
+    path: 'config',
+    loadChildren: () => import('./config/config.module').then( m => m.ConfigPageModule)
+  },
+
 
 
 
