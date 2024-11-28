@@ -18,6 +18,8 @@ export class LoginPage {
   usernameErrorL: string = '';
   passwordErrorL: string = '';
 
+  mostrarContrasena: boolean = false; // Controla la visibilidad de la contraseña
+
   constructor(
     private navCtrl: NavController,
     private router: Router,
@@ -26,6 +28,11 @@ export class LoginPage {
     private storage: Storage,
     private userService: UserService
   ) {}
+
+  // Alterna la visibilidad de la contraseña
+  toggleMostrarContrasena() {
+    this.mostrarContrasena = !this.mostrarContrasena;
+  }
 
   async login() {
     // Nueva expresión regular para validar la contraseña
@@ -70,7 +77,6 @@ export class LoginPage {
       this.showToast('Credenciales incorrectas');
     }
   }
-  
 
   async getCurrentLocation() {
     try {

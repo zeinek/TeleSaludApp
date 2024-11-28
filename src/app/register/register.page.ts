@@ -21,6 +21,7 @@ export class RegisterPage {
   error: string = '';
 
   mostrarContrasena: boolean = false;
+  mostrarRecontrasena: boolean = false;
 
   constructor(private navCtrl: NavController, private toastController: ToastController, private storage: Storage) {
     this.storage.create(); // Inicializar el storage
@@ -162,6 +163,10 @@ export class RegisterPage {
 
   toggleMostrarClave() {
     this.mostrarContrasena = !this.mostrarContrasena;
+  }
+
+  toggleMostrarRecontrasena() {
+    this.mostrarRecontrasena = !this.mostrarRecontrasena;
   }
 
   onRepetirClaveChange() {
