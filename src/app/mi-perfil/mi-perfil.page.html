@@ -1,0 +1,35 @@
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-back-button default-href="/main"></ion-back-button>
+  </ion-buttons>
+  <ion-title>TeleSalud</ion-title>
+</ion-toolbar>  
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Mi Perfil</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>
+            <strong>Nombre de Usuario:</strong>
+          </ion-label>
+          <ion-text>{{ username }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <strong>Correo Electrónico:</strong>
+          </ion-label>
+          <ion-text>{{ correo }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <strong>Fecha de Nacimiento:</strong>
+          </ion-label>
+          <ion-text>{{ fechaNacimiento }}</ion-text>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

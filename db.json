@@ -1,16 +1,4 @@
 {
-  "citas": [
-    {
-      "id": "c35c",
-      "nombre": "Kevin Peredo Montecino",
-      "fecha": "2024-12-21",
-      "hora": "08:30"
-    },
-    {
-      "id": "9f40",
-      "nombre": "Juanito Perez",
-      "fecha": "2025-01-15",
-      "hora": "07:15"
-    }
-  ]
+  "users": [],
+  "citas": []
 }

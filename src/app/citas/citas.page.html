@@ -1,13 +1,11 @@
-<ion-toolbar>
-  <ion-buttons slot="start">
-    <ion-back-button default-href="/main"></ion-back-button>
-  </ion-buttons>
-  <ion-title>Citas Telesalud</ion-title>
-</ion-toolbar>  
-
 <ion-content>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/main"></ion-back-button>
+    </ion-buttons>
+    <ion-title>TeleSalud</ion-title>
+  </ion-toolbar>  
   <ion-list>
-    <!-- Mostrar la lista de citas -->
     <ion-item *ngFor="let cita of citas">
       <ion-label>
         {{ cita.nombre }} - {{ cita.fecha }} - {{ cita.hora }}
@@ -16,29 +14,37 @@
       <ion-button fill="outline" color="danger" (click)="deleteCita(cita.id ?? 0)">
         Eliminar
       </ion-button>
-      </ion-item>
+    </ion-item>
   </ion-list>
-
-  <!-- Formulario para agregar/editar citas -->
   <ion-item>
     <ion-label position="floating">Nombre</ion-label>
     <ion-input [(ngModel)]="newCita.nombre"></ion-input>
   </ion-item>
+  <div *ngIf="errorMessages.nombre" class="error-message">{{ errorMessages.nombre }}</div>
 
   <ion-item>
     <ion-label position="floating">Fecha</ion-label>
     <ion-input type="date" [(ngModel)]="newCita.fecha"></ion-input>
   </ion-item>
+  <div *ngIf="errorMessages.fecha" class="error-message">{{ errorMessages.fecha }}</div>
 
   <ion-item>
     <ion-label position="floating">Hora</ion-label>
     <ion-input type="time" [(ngModel)]="newCita.hora"></ion-input>
   </ion-item>
+  <div *ngIf="errorMessages.hora" class="error-message">{{ errorMessages.hora }}</div>
 
   <ion-button expand="block" *ngIf="!isEditing" (click)="addCita()">Agregar Cita</ion-button>
 
   <ion-button expand="block" *ngIf="isEditing" (click)="confirmUpdateCita()">Confirmar Actualización</ion-button>
 
   <ion-button expand="block" color="medium" *ngIf="isEditing" (click)="resetForm()">Cancelar Edición</ion-button>
-
 </ion-content>
+
+<style>
+  .error-message {
+    color: red;
+    font-size: 0.8em;
+    margin: 5px 15px;
+  }
+</style>

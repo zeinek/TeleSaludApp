@@ -38,17 +38,14 @@ const routes: Routes = [
     canActivate: [AuthGuard], // Protegiendo la ruta
   },
 
-  {
-    path: 'profile',
-    loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule),
-    canActivate: [AuthGuard], // Protegiendo la ruta
+  { 
+    path: 'mi-perfil', 
+    loadChildren: () => import('./mi-perfil/mi-perfil.module').then( m => m.MiPerfilPageModule)
   },
 
-    //{
-    //path: 'agendarcita',
-    //loadChildren: () => import('./home/agendarcita/agendarcita.module').then(m => m.AgendarcitaPageModule),
-    //canActivate: [AuthGuard],  // Protegiendo la ruta
-  //},
+
+
+
   
 ];
 

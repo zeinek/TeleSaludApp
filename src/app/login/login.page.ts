@@ -28,44 +28,49 @@ export class LoginPage {
   ) {}
 
   async login() {
-    const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*]).{8,}$/;
+    // Nueva expresión regular para validar la contraseña
+    const passwordPattern = /^(?=(.*\d){4})(?=(.*[a-zA-Z]){3})(?=.*[A-Z]).{8,}$/;
     const usernamePattern = /^[a-zA-Z]+$/;
-
+  
+    // Validación del nombre de usuario
     if (this.username.length < 3 || this.username.length > 8 || !usernamePattern.test(this.username)) {
       this.usernameErrorL = 'El nombre de usuario debe tener entre 3 y 8 caracteres y solo puede contener letras.';
       return;
     } else {
       this.usernameErrorL = '';
     }
-
+  
+    // Validación de la contraseña
     if (!passwordPattern.test(this.password)) {
-      this.passwordErrorL = 'La contraseña debe cumplir con los requisitos.';
+      this.passwordErrorL = 'La contraseña debe contener al menos 4 números, 3 letras y 1 mayúscula.';
       return;
     } else {
       this.passwordErrorL = '';
     }
-
+  
+    // Intento de autenticación con las credenciales ingresadas
     const isAuthenticated = await this.AuthService.authenticate(this.username, this.password);
-
+  
     if (isAuthenticated) {
       // Guardar el nombre de usuario en Storage
       await this.storage.set('loggedInUser', this.username);
-
+  
       // Obtener la ubicación del usuario
       this.getCurrentLocation();  // Llamar a la función de ubicación
-
+  
       const navigationExtras: NavigationExtras = {
         state: {
           username: this.username
         }
       };
-
+  
       // Redirigir a la página main
       this.router.navigate(['/main'], navigationExtras);
     } else {
       this.showToast('Credenciales incorrectas');
     }
   }
+  
 
   async getCurrentLocation() {
     try {

@@ -1,0 +1,25 @@
+ion-content {
+  --background: #26A69A;
+  --ion-background-color: #ffffff;
+  --ion-text-color: #ffffff;
+  --ion-color-step-500: #192129;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+}
+
+ion-toolbar{
+  --background: #48646e;
+}
+
+ion-card{
+  --background: #48646e;
+}
+
+ion-item{
+  --background: #48646e;
+}
