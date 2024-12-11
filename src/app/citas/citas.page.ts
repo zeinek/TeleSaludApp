@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CitasService } from '../services/citas.service';
+import { CitasService, Cita } from 'src/app/services/citas.service';
 
 @Component({
   selector: 'app-citas',
@@ -7,55 +7,107 @@ import { CitasService } from '../services/citas.service';
   styleUrls: ['./citas.page.scss'],
 })
 export class CitasPage implements OnInit {
-  citas: any[] = [];
-  form = { paciente: '', motivo: '', fecha: '', hora: '' };
-  editingId: number | null = null;
+  citas: Cita[] = [];
+  newCita: Cita = { nombre: '', fecha: '', hora: '' };
+  isEditing: boolean = false;
+  editingCitaId: number | null = null;
+
+  // Variables para mensajes de error
+  errorMessages = {
+    nombre: '',
+    fecha: '',
+    hora: '',
+  };
 
   constructor(private citasService: CitasService) {}
 
-  async ngOnInit() {
-    await this.citasService.initializeDatabase();
+  ngOnInit() {
     this.loadCitas();
   }
 
-  async loadCitas() {
-    this.citas = await this.citasService.getCitas();
+  loadCitas() {
+    this.citasService.getCitas().subscribe((data) => {
+      this.citas = data;
+    });
   }
 
-  async addOrUpdateCita() {
-    if (this.editingId) {
-      await this.citasService.updateCita(
-        this.editingId,
-        this.form.paciente,
-        this.form.motivo,
-        this.form.fecha,
-        this.form.hora
-      );
-      this.editingId = null;
+  validateCita(): boolean {
+    let isValid = true;
+
+    // Validar nombre
+    if (!this.newCita.nombre.trim()) {
+      this.errorMessages.nombre = 'El nombre no puede estar vacío.';
+      isValid = false;
+    } else if (!/^[a-zA-Z\s]+$/.test(this.newCita.nombre)) {
+      this.errorMessages.nombre = 'El nombre solo puede contener letras y espacios.';
+      isValid = false;
     } else {
-      await this.citasService.addCita(
-        this.form.paciente,
-        this.form.motivo,
-        this.form.fecha,
-        this.form.hora
-      );
+      this.errorMessages.nombre = '';
     }
-    this.form = { paciente: '', motivo: '', fecha: '', hora: '' };
-    this.loadCitas();
+
+    // Validar fecha
+    if (!this.newCita.fecha) {
+      this.errorMessages.fecha = 'La fecha no puede estar vacía.';
+      isValid = false;
+    } else {
+      const today = new Date();
+      const selectedDate = new Date(this.newCita.fecha);
+      if (selectedDate < today) {
+        this.errorMessages.fecha = 'La fecha debe ser futura.';
+        isValid = false;
+      } else {
+        this.errorMessages.fecha = '';
+      }
+    }
+
+    // Validar hora
+    if (!this.newCita.hora) {
+      this.errorMessages.hora = 'La hora no puede estar vacía.';
+      isValid = false;
+    } else {
+      this.errorMessages.hora = '';
+    }
+
+    return isValid;
   }
 
-  editCita(cita: any) {
-    this.editingId = cita.id;
-    this.form = {
-      paciente: cita.paciente,
-      motivo: cita.motivo,
-      fecha: cita.fecha,
-      hora: cita.hora,
-    };
+  addCita() {
+    if (this.validateCita()) {
+      this.citasService.addCita(this.newCita).subscribe((cita) => {
+        this.citas.push(cita);
+        this.resetForm();
+      });
+    }
   }
 
-  async deleteCita(id: number) {
-    await this.citasService.deleteCita(id);
-    this.loadCitas();
+  editCita(cita: Cita) {
+    this.newCita = { ...cita };
+    this.isEditing = true;
+    this.editingCitaId = cita.id !== undefined ? cita.id : null;
+  }
+
+  confirmUpdateCita() {
+    if (this.validateCita() && this.isEditing && this.editingCitaId !== null) {
+      this.citasService.updateCita(this.editingCitaId, this.newCita).subscribe((updatedCita) => {
+        const index = this.citas.findIndex((c) => c.id === this.editingCitaId);
+        if (index !== -1) {
+          this.citas[index] = updatedCita;
+        }
+        this.resetForm();
+      });
+    }
+  }
+
+  deleteCita(id: number) {
+    this.citasService.deleteCita(id).subscribe(() => {
+      this.citas = this.citas.filter((c) => c.id !== id);
+    });
+  }
+
+  resetForm() {
+    this.newCita = { nombre: '', fecha: '', hora: '' };
+    this.isEditing = false;
+    this.editingCitaId = null;
+    this.errorMessages = { nombre: '', fecha: '', hora: '' };
   }
 }
