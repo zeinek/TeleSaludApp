@@ -1,40 +1,61 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-export interface Cita {
-  id?: number; // El ID es opcional porque cuando creamos una cita nueva aún no tiene ID
-  nombre: string;
-  fecha: string;
-  hora: string;
-}
+import { CapacitorSQLite, SQLiteDBConnection } from '@capacitor-community/sqlite';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CitasService {
-  private apiUrl = 'http://localhost:3000/citas'; // URL de tu servidor JSON o API REST
+  private db: SQLiteDBConnection | null = null;
 
-  constructor(private http: HttpClient) {}
+  async initializeDatabase() {
+    const sqlite = CapacitorSQLite;
 
-  // Obtener todas las citas
-  getCitas(): Observable<Cita[]> {
-    return this.http.get<Cita[]>(this.apiUrl);
+    // Crea la conexión a la base de datos con los parámetros correctos
+    const connection = await sqlite.createConnection({
+      database: 'citasDB',
+      encrypted: false,
+      mode: 'no-encryption',
+      version: 1,
+    });
+
+
+    if (this.db) {
+      await this.db.open();
+      await this.db.execute(`
+        CREATE TABLE IF NOT EXISTS citas (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          paciente TEXT NOT NULL,
+          motivo TEXT NOT NULL,
+          fecha TEXT NOT NULL,
+          hora TEXT NOT NULL
+        )
+      `);
+    } else {
+      console.error('No se pudo establecer conexión con la base de datos.');
+    }
   }
 
-  // Añadir una nueva cita
-  addCita(cita: Cita): Observable<Cita> {
-    return this.http.post<Cita>(this.apiUrl, cita);
+  async addCita(paciente: string, motivo: string, fecha: string, hora: string) {
+    if (!this.db) return;
+    const query = `INSERT INTO citas (paciente, motivo, fecha, hora) VALUES (?, ?, ?, ?)`;
+    await this.db.run(query, [paciente, motivo, fecha, hora]);
   }
 
-  // Actualizar una cita existente
-  updateCita(id: number, cita: Cita): Observable<Cita> {
-    return this.http.put<Cita>(`${this.apiUrl}/${id}`, cita); // Petición PUT para actualizar
+  async getCitas() {
+    if (!this.db) return [];
+    const result = await this.db.query('SELECT * FROM citas');
+    return result.values || [];
   }
 
-  // Eliminar una cita
-  deleteCita(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  async updateCita(id: number, paciente: string, motivo: string, fecha: string, hora: string) {
+    if (!this.db) return;
+    const query = `UPDATE citas SET paciente = ?, motivo = ?, fecha = ?, hora = ? WHERE id = ?`;
+    await this.db.run(query, [paciente, motivo, fecha, hora, id]);
+  }
+
+  async deleteCita(id: number) {
+    if (!this.db) return;
+    const query = `DELETE FROM citas WHERE id = ?`;
+    await this.db.run(query, [id]);
   }
 }
-
